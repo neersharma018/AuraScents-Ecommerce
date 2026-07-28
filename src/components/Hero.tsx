@@ -1,7 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { supabase } from '../lib/supabaseClient';
 
 const Hero: React.FC = () => {
+  const [heroData, setHeroData] = useState({
+    title: 'Crafted To Become Your <br /> <span class="text-gold-italic">Signature</span>',
+    subtitle: 'Discover handcrafted fragrances designed to leave an unforgettable impression. Every bottle is blended with rare ingredients and timeless craftsmanship.',
+    button_text: 'Explore Collection',
+    button_link: '#collections',
+    background_image: '/assets/hero_bottle.jpg'
+  });
+
+  useEffect(() => {
+    const fetchHero = async () => {
+      const { data } = await supabase.from('home_section').select('*').eq('section_key', 'hero').single();
+      if (data) {
+        setHeroData({
+          title: data.title,
+          subtitle: data.subtitle,
+          button_text: data.button_text,
+          button_link: data.button_link,
+          background_image: data.background_image
+        });
+      }
+    };
+    fetchHero();
+  }, []);
+
   return (
     <section className="relative min-h-screen pt-32 pb-20 overflow-hidden flex items-center bg-[var(--bg-ivory)]" id="home">
       <div className="absolute inset-0 smoke-overlay"></div>
@@ -39,10 +64,8 @@ const Hero: React.FC = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="serif text-5xl md:text-7xl lg:text-[6rem] mb-8 text-[var(--text-main)]" 
               style={{ lineHeight: 0.95 }}
-            >
-              Crafted To Become Your <br />
-              <span className="text-gold-italic">Signature</span>
-            </motion.h1>
+              dangerouslySetInnerHTML={{ __html: heroData.title }}
+            />
             
             <motion.p 
               initial={{ opacity: 0, y: 30 }}
@@ -50,7 +73,7 @@ const Hero: React.FC = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-base md:text-lg max-w-md mb-10 text-[var(--text-muted)]"
             >
-              Discover handcrafted fragrances designed to leave an unforgettable impression. Every bottle is blended with rare ingredients and timeless craftsmanship.
+              {heroData.subtitle}
             </motion.p>
             
             <motion.div 
@@ -59,8 +82,14 @@ const Hero: React.FC = () => {
               transition={{ duration: 0.8, delay: 0.8 }}
               className="flex flex-wrap gap-5"
             >
-              <button className="btn-gold" onClick={() => document.getElementById('collections')?.scrollIntoView({behavior:'smooth'})}>
-                Explore Collection
+              <button className="btn-gold" onClick={() => {
+                if (heroData.button_link.startsWith('#')) {
+                  document.getElementById(heroData.button_link.substring(1))?.scrollIntoView({behavior:'smooth'})
+                } else {
+                  window.location.href = heroData.button_link;
+                }
+              }}>
+                {heroData.button_text}
               </button>
               <button className="btn-outline" onClick={() => document.getElementById('story')?.scrollIntoView({behavior:'smooth'})}>
                 Discover Story
@@ -107,7 +136,7 @@ const Hero: React.FC = () => {
               className="relative z-10 floating"
             >
               <div className="relative overflow-hidden rounded-[2rem] shadow-2xl bg-white" style={{ width: '400px', height: '540px' }}>
-                <img src="/assets/hero_bottle.jpg" alt="AuraScents Signature Perfume" className="w-full h-full object-cover" />
+                <img src={heroData.background_image} alt="AuraScents Signature Perfume" className="w-full h-full object-cover" />
                 
                 {/* Inner glass reflection border */}
                 <div className="absolute inset-0 border border-white/40 rounded-[2rem] pointer-events-none shadow-[inset_0_0_40px_rgba(255,255,255,0.2)]"></div>

@@ -18,6 +18,17 @@ const AdminProducts: React.FC = () => {
     setLoading(false);
   };
 
+  const toggleFeatured = async (product: any) => {
+    const { error } = await supabase
+      .from('products')
+      .update({ is_featured: !product.is_featured })
+      .eq('id', product.id);
+      
+    if (!error) {
+      setProducts(products.map(p => p.id === product.id ? {...p, is_featured: !product.is_featured} : p));
+    }
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
@@ -65,11 +76,16 @@ const AdminProducts: React.FC = () => {
                   <td className="p-4 text-sm text-gray-900">${product.price}</td>
                   <td className="p-4 text-sm text-gray-900">{product.stock}</td>
                   <td className="p-4">
-                    {product.is_featured ? (
-                      <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-[10px] uppercase font-bold rounded-full">Featured</span>
-                    ) : (
-                      <span className="px-2 py-1 bg-gray-100 text-gray-800 text-[10px] uppercase font-bold rounded-full">Standard</span>
-                    )}
+                    <button 
+                      onClick={() => toggleFeatured(product)}
+                      className={`px-2 py-1 text-[10px] uppercase font-bold rounded-full transition-colors ${
+                        product.is_featured 
+                          ? 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200' 
+                          : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                      }`}
+                    >
+                      {product.is_featured ? 'Featured' : 'Standard'}
+                    </button>
                   </td>
                   <td className="p-4">
                     <div className="flex items-center gap-2">

@@ -1,22 +1,27 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Heart, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Heart, Plus, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
+import { supabase } from '../lib/supabaseClient';
 
 const BestSellers: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const { addToCart, toggleWishlist, isInWishlist } = useShop();
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   
-  const products = [
-    { key: 'midnightNoir', name: 'Midnight Noir', notes: 'Leather · Tobacco · Smoke', rating: 4.9, reviews: 248, price: 420, image: '/assets/midnight_noir.jpg' },
-    { key: 'velvetAmber', name: 'Velvet Amber', notes: 'Amber · Vanilla · Tonka Bean', rating: 4.8, reviews: 312, price: 380, image: '/assets/velvet_amber.jpg' },
-    { key: 'royalOud', name: 'Royal Oud', notes: 'Oud · Sandalwood · Cedar', rating: 5.0, reviews: 187, price: 450, image: '/assets/royal_oud.jpg' },
-    { key: 'oceanMist', name: 'Ocean Mist', notes: 'Sea Salt · Bergamot · Driftwood', rating: 4.7, reviews: 156, price: 340, image: '/assets/ocean_mist.jpg' },
-    { key: 'goldenBloom', name: 'Signature Gold', notes: 'Saffron · Rose · Patchouli', rating: 4.9, reviews: 203, price: 395, image: '/assets/hero_bottle.jpg' },
-    { key: 'whiteBloom', name: 'White Bloom', notes: 'Jasmine · Tuberose · Musk', rating: 4.8, reviews: 178, price: 360, image: '/assets/white_bloom.jpg' }
-  ];
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      const { data } = await supabase.from('products').select('*').eq('is_featured', true);
+      if (data) {
+        setProducts(data);
+      }
+      setLoading(false);
+    };
+    fetchFeatured();
+  }, []);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -61,12 +66,19 @@ const BestSellers: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 1 }}
         >
-          <div 
-            ref={scrollRef}
-            className="flex gap-8 overflow-x-auto pb-12 scroll-hide snap-x snap-mandatory" 
-            style={{ scrollBehavior: 'smooth' }}
-          >
-            {products.map((p, i) => (
+          {loading ? (
+            <div className="flex justify-center items-center h-64">
+              <Loader2 className="animate-spin text-[var(--gold)] w-8 h-8" />
+            </div>
+          ) : products.length === 0 ? (
+            <div className="text-center text-gray-500 py-12">No featured products at the moment.</div>
+          ) : (
+            <div 
+              ref={scrollRef}
+              className="flex gap-8 overflow-x-auto pb-12 scroll-hide snap-x snap-mandatory" 
+              style={{ scrollBehavior: 'smooth' }}
+            >
+              {products.map((p, i) => (
               <motion.article 
                 key={p.key} 
                 whileHover={{ y: -5 }}
@@ -129,6 +141,7 @@ const BestSellers: React.FC = () => {
               </motion.article>
             ))}
           </div>
+          )}
         </motion.div>
       </div>
     </section>
