@@ -11,7 +11,7 @@ const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const { cartCount, wishlist } = useShop();
-  const { user, signOut } = useAuth();
+  const { user, role, signOut } = useAuth();
   
   const location = useLocation();
   const navigate = useNavigate();
@@ -99,6 +99,11 @@ const Navbar: React.FC = () => {
             </Link>
             {user ? (
               <div className="hidden md:flex items-center gap-4">
+                {role === 'admin' && (
+                  <Link to="/admin" className="text-[10px] uppercase tracking-widest text-[var(--gold)] font-bold hover:underline">
+                    Admin Panel
+                  </Link>
+                )}
                 <span className="text-[10px] uppercase tracking-widest text-[var(--text-muted)] truncate max-w-[100px]">
                   {user.email?.split('@')[0]}
                 </span>

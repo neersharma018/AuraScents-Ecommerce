@@ -5,6 +5,7 @@ import { supabase } from '../lib/supabaseClient';
 interface AuthContextType {
   user: User | null;
   session: Session | null;
+  role: 'admin' | 'customer' | null;
   loading: boolean;
   signOut: () => Promise<void>;
 }
@@ -14,21 +15,54 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
+  const [role, setRole] = useState<'admin' | 'customer' | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const fetchRole = async (userId: string, email?: string) => {
+    try {
+      // Hardcode admin access for the primary owner account to prevent SQL lockouts
+      if (email === 'neersharma0000@gmail.com') {
+        setRole('admin');
+        return;
+      }
+
+      console.log("Fetching role for user:", userId);
+      const { data, error } = await supabase.from('user_roles').select('role').eq('user_id', userId).single();
+      
+      if (error) {
+        console.error("Supabase role fetch error:", error);
+      }
+      
+      setRole(data?.role || 'customer');
+    } catch (err) {
+      console.error("Try-catch role error:", err);
+      setRole('customer');
+    }
+  };
 
   useEffect(() => {
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
-      setLoading(false);
+      if (session?.user) {
+        fetchRole(session.user.id, session.user.email).finally(() => setLoading(false));
+      } else {
+        setRole(null);
+        setLoading(false);
+      }
     });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
-      setLoading(false);
+      if (session?.user) {
+        fetchRole(session.user.id, session.user.email).finally(() => setLoading(false));
+      } else {
+        setRole(null);
+        setLoading(false);
+      }
     });
 
     return () => {
@@ -41,7 +75,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, signOut }}>
+    <AuthContext.Provider value={{ user, session, role, loading, signOut }}>
       {children}
     </AuthContext.Provider>
   );
