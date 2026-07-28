@@ -14,6 +14,12 @@ const Checkout: React.FC = () => {
   
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [couponCode, setCouponCode] = useState('');
+  const [discount, setDiscount] = useState(0);
+  const [couponError, setCouponError] = useState('');
+  
+  const finalTotal = cartTotal - (cartTotal * discount / 100);
+
   const [formData, setFormData] = useState({
     firstName: '', lastName: '', email: '', address: ''
   });
@@ -37,7 +43,7 @@ const Checkout: React.FC = () => {
         .from('orders')
         .insert([{
           user_id: user ? user.id : null,
-          total_amount: cartTotal,
+          total_amount: finalTotal,
           status: 'pending',
           shipping_address: shippingAddress
         }])
@@ -72,6 +78,27 @@ const Checkout: React.FC = () => {
       alert("Error processing order: " + error.message);
     } finally {
       setIsProcessing(false);
+    }
+  };
+
+  const applyCoupon = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setCouponError('');
+    if (!couponCode) return;
+    
+    const { data, error } = await supabase
+      .from('coupons')
+      .select('*')
+      .eq('code', couponCode.toUpperCase())
+      .eq('is_active', true)
+      .single();
+      
+    if (error || !data) {
+      setCouponError('Invalid or expired coupon code');
+      setDiscount(0);
+    } else {
+      setDiscount(data.discount_percentage);
+      setCouponError('');
     }
   };
 
@@ -174,7 +201,7 @@ const Checkout: React.FC = () => {
                   {isProcessing ? (
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                   ) : (
-                    `Pay $${cartTotal}`
+                    `Pay $${finalTotal.toFixed(2)}`
                   )}
                 </button>
               </form>
@@ -203,16 +230,42 @@ const Checkout: React.FC = () => {
               <div className="border-t border-gray-200 pt-6 space-y-4 text-sm text-gray-600 mb-6">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span>${cartTotal}</span>
+                  <span>${cartTotal.toFixed(2)}</span>
                 </div>
+                {discount > 0 && (
+                  <div className="flex justify-between text-[var(--gold)]">
+                    <span>Discount ({discount}%)</span>
+                    <span>-${(cartTotal * discount / 100).toFixed(2)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <span>Shipping</span>
                   <span>Free</span>
                 </div>
               </div>
+              
+              <form onSubmit={applyCoupon} className="mb-6 flex gap-2">
+                <input 
+                  type="text" 
+                  placeholder="Discount code" 
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-[var(--gold)] uppercase"
+                  value={couponCode}
+                  onChange={e => setCouponCode(e.target.value)}
+                  disabled={discount > 0}
+                />
+                <button 
+                  type="submit" 
+                  disabled={discount > 0 || !couponCode}
+                  className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 disabled:opacity-50"
+                >
+                  Apply
+                </button>
+              </form>
+              {couponError && <p className="text-red-500 text-xs mb-4">{couponError}</p>}
+              
               <div className="flex justify-between items-center pt-6 border-t border-gray-200">
                 <span className="serif text-xl">Total</span>
-                <span className="serif text-3xl text-[var(--gold)]">${cartTotal}</span>
+                <span className="serif text-3xl text-[var(--gold)]">${finalTotal.toFixed(2)}</span>
               </div>
             </motion.div>
           </div>
