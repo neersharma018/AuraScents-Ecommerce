@@ -24,6 +24,7 @@ interface ShopContextType {
   updateQuantity: (productKey: string, quantity: number) => Promise<void>;
   toggleWishlist: (product: Product) => Promise<void>;
   isInWishlist: (productKey: string) => boolean;
+  clearCart: () => void;
   cartTotal: number;
   cartCount: number;
 }
@@ -183,13 +184,20 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return wishlist.some(item => item.key === productKey);
   };
 
+  const clearCart = () => {
+    setCart([]);
+    if (!user) {
+      localStorage.removeItem('aurascents_cart');
+    }
+  };
+
   const cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
 
   return (
     <ShopContext.Provider value={{ 
       cart, wishlist, addToCart, removeFromCart, updateQuantity, 
-      toggleWishlist, isInWishlist, cartTotal, cartCount 
+      toggleWishlist, isInWishlist, clearCart, cartTotal, cartCount 
     }}>
       {children}
     </ShopContext.Provider>

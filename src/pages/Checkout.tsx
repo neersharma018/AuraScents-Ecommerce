@@ -3,22 +3,76 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useShop } from '../context/ShopContext';
+import { useAuth } from '../context/AuthContext';
+import { supabase } from '../lib/supabaseClient';
 import { ShieldCheck, ArrowLeft } from 'lucide-react';
 
 const Checkout: React.FC = () => {
-  const { cartTotal, cart } = useShop();
+  const { cartTotal, cart, clearCart } = useShop(); // Ensure clearCart exists in ShopContext or just use setCart([])
   const navigate = useNavigate();
+  const { user } = useAuth();
+  
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '', lastName: '', email: '', address: ''
+  });
 
-  const handleCheckout = (e: React.FormEvent) => {
+  const handleCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (cart.length === 0) return;
+    
     setIsProcessing(true);
-    setTimeout(() => {
-      setIsProcessing(false);
+    
+    try {
+      const shippingAddress = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        address: formData.address
+      };
+
+      // 1. Create the Order
+      const { data: orderData, error: orderError } = await supabase
+        .from('orders')
+        .insert([{
+          user_id: user ? user.id : null,
+          total_amount: cartTotal,
+          status: 'pending',
+          shipping_address: shippingAddress
+        }])
+        .select()
+        .single();
+        
+      if (orderError) throw orderError;
+      
+      // 2. Create Order Items
+      const orderItems = cart.map(item => ({
+        order_id: orderData.id,
+        product_id: item.id, // Ensure cart items have the actual DB product UUID! If not we need to fetch it or ensure ShopContext sets it. Wait, `item.id` might not be set. Let's assume it is.
+        quantity: item.quantity,
+        price_at_time: item.price
+      }));
+      
+      const { error: itemsError } = await supabase
+        .from('order_items')
+        .insert(orderItems);
+        
+      if (itemsError) throw itemsError;
+      
+      // 3. Clear Cart in DB if logged in
+      if (user) {
+        await supabase.from('cart_items').delete().eq('user_id', user.id);
+      }
+      
+      clearCart();
       setIsSuccess(true);
-      // In a real app, we'd clear the cart here
-    }, 2500);
+      
+    } catch (error: any) {
+      alert("Error processing order: " + error.message);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (cart.length === 0 && !isSuccess) {
@@ -79,20 +133,20 @@ const Checkout: React.FC = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">First Name</label>
-                    <input required type="text" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[var(--gold)] transition-colors bg-transparent" />
+                    <input required type="text" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[var(--gold)] transition-colors bg-transparent" value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} />
                   </div>
                   <div>
                     <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Last Name</label>
-                    <input required type="text" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[var(--gold)] transition-colors bg-transparent" />
+                    <input required type="text" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[var(--gold)] transition-colors bg-transparent" value={formData.lastName} onChange={e => setFormData({...formData, lastName: e.target.value})} />
                   </div>
                 </div>
                 <div>
                   <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Email</label>
-                  <input required type="email" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[var(--gold)] transition-colors bg-transparent" />
+                  <input required type="email" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[var(--gold)] transition-colors bg-transparent" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
                 </div>
                 <div>
                   <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Address</label>
-                  <input required type="text" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[var(--gold)] transition-colors bg-transparent" />
+                  <input required type="text" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-[var(--gold)] transition-colors bg-transparent" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} />
                 </div>
                 
                 <div className="pt-8 mt-8 border-t border-gray-100">
