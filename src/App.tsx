@@ -14,6 +14,11 @@ import AdminRoute from './components/AdminRoute';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
+import AdminCategories from './pages/admin/AdminCategories';
+import AdminOrders from './pages/admin/AdminOrders';
+import AdminCoupons from './pages/admin/AdminCoupons';
+import AdminReviews from './pages/admin/AdminReviews';
+import AdminHomeSection from './pages/admin/AdminHomeSection';
 
 function App() {
   const location = useLocation();
@@ -63,7 +68,11 @@ function App() {
           <Route element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />
             <Route path="products" element={<AdminProducts />} />
-            {/* We will add more admin routes here later */}
+            <Route path="categories" element={<AdminCategories />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="coupons" element={<AdminCoupons />} />
+            <Route path="reviews" element={<AdminReviews />} />
+            <Route path="home" element={<AdminHomeSection />} />
           </Route>
         </Route>
 
