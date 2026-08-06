@@ -118,15 +118,27 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
 
     if (user) {
-      const productId = product.id || await getProductId(product.key);
-      if (productId) {
-        // Check if exists in DB
-        const { data: existing } = await supabase.from('cart_items').select('id, quantity').eq('user_id', user.id).eq('product_id', productId).single();
-        if (existing) {
-          await supabase.from('cart_items').update({ quantity: existing.quantity + quantity }).eq('id', existing.id);
-        } else {
-          await supabase.from('cart_items').insert({ user_id: user.id, product_id: productId, quantity });
+      try {
+        const productId = product.id || await getProductId(product.key);
+        if (productId) {
+          // Check if exists in DB
+          const { data: existing, error } = await supabase
+            .from('cart_items')
+            .select('id, quantity')
+            .eq('user_id', user.id)
+            .eq('product_id', productId)
+            .maybeSingle();
+            
+          if (error) console.error("Error checking cart:", error);
+            
+          if (existing) {
+            await supabase.from('cart_items').update({ quantity: existing.quantity + quantity }).eq('id', existing.id);
+          } else {
+            await supabase.from('cart_items').insert({ user_id: user.id, product_id: productId, quantity });
+          }
         }
+      } catch (err) {
+        console.error("Error saving to cart in DB:", err);
       }
     }
   };
