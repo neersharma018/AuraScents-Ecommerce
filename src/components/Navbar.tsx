@@ -35,24 +35,30 @@ const Navbar: React.FC = () => {
     e.preventDefault();
     setMobileMenuOpen(false);
     
-    if (location.pathname !== '/') {
-      navigate('/');
-      setTimeout(() => {
-        const el = document.querySelector(href);
+    if (href.startsWith('/#')) {
+      const targetId = href.substring(1);
+      if (location.pathname !== '/') {
+        navigate('/');
+        setTimeout(() => {
+          const el = document.querySelector(targetId);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      } else {
+        const el = document.querySelector(targetId);
         if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      }
     } else {
-      const el = document.querySelector(href);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      navigate(href);
+      window.scrollTo(0, 0);
     }
   };
 
   const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'Collections', href: '#collections' },
-    { name: 'Best Sellers', href: '#bestsellers' },
-    { name: 'Ingredients', href: '#ingredients' },
-    { name: 'About', href: '#about' },
+    { name: 'Home', href: '/' },
+    { name: 'Shop', href: '/shop' },
+    { name: 'Best Sellers', href: '/#bestsellers' },
+    { name: 'Ingredients', href: '/#ingredients' },
+    { name: 'About', href: '/#about' },
   ];
 
   return (
