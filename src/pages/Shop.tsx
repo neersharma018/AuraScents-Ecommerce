@@ -8,7 +8,7 @@ import { supabase } from '../lib/supabaseClient';
 
 const Shop: React.FC = () => {
   const navigate = useNavigate();
-  const { addToCart, toggleWishlist, isInWishlist } = useShop();
+  const { cart, addToCart, toggleWishlist, isInWishlist } = useShop();
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -115,10 +115,15 @@ const Shop: React.FC = () => {
                     <div className="flex items-center justify-between pt-4 border-t border-[var(--border-dark)]">
                       <span className="serif text-xl text-[var(--text-main)]">${p.price}</span>
                       <button 
+                        disabled={cart.some(item => item.key === p.key)}
                         onClick={(e) => handleAction(e, () => addToCart(p))}
-                        className="text-[10px] uppercase tracking-widest font-medium border-b border-[var(--matte-black)] pb-1 hover:text-[var(--gold)] hover:border-[var(--gold)] transition-colors"
+                        className={`text-[10px] uppercase tracking-widest font-medium border-b pb-1 transition-colors ${
+                          cart.some(item => item.key === p.key) 
+                            ? 'text-[var(--gold)] border-[var(--gold)] cursor-default' 
+                            : 'border-[var(--matte-black)] hover:text-[var(--gold)] hover:border-[var(--gold)]'
+                        }`}
                       >
-                        Add to Cart
+                        {cart.some(item => item.key === p.key) ? 'Added ✓' : 'Add to Cart'}
                       </button>
                     </div>
                   </div>

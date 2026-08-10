@@ -14,7 +14,7 @@ const AdminReviews: React.FC = () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('reviews')
-      .select('*, products(name), auth.users(email)') // Note: joining auth.users might fail if restricted, but let's try
+      .select('*, products(name)') // Removed auth.users to avoid RLS silent failures
       .order('created_at', { ascending: false });
       
     if (!error && data) setReviews(data);

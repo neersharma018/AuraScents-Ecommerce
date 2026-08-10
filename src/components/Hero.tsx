@@ -7,7 +7,7 @@ const Hero: React.FC = () => {
     title: 'Crafted To Become Your <br /> <span class="text-gold-italic">Signature</span>',
     subtitle: 'Discover handcrafted fragrances designed to leave an unforgettable impression. Every bottle is blended with rare ingredients and timeless craftsmanship.',
     button_text: 'Explore Collection',
-    button_link: '#collections',
+    button_link: '/collections',
     background_image: '/assets/hero_bottle.jpg'
   });
 
@@ -19,7 +19,7 @@ const Hero: React.FC = () => {
           title: data.title,
           subtitle: data.subtitle,
           button_text: data.button_text,
-          button_link: data.button_link,
+          button_link: data.button_link === '#collections' ? '/collections' : data.button_link,
           background_image: data.background_image
         });
       }

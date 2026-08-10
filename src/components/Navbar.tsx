@@ -56,6 +56,7 @@ const Navbar: React.FC = () => {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Shop', href: '/shop' },
+    { name: 'Collections', href: '/collections' },
     { name: 'Best Sellers', href: '/#bestsellers' },
     { name: 'Ingredients', href: '/#ingredients' },
     { name: 'About', href: '/#about' },
@@ -140,7 +141,6 @@ const Navbar: React.FC = () => {
         </button>
         <div className="flex flex-col items-center justify-center h-full gap-8">
           <div className="eyebrow mb-4">Menu</div>
-          <Link to="/" onClick={() => setMobileMenuOpen(false)} className="serif text-4xl text-[var(--text-main)] hover:text-[var(--gold)] transition-colors">Home</Link>
           {navLinks.map((link) => (
             <a 
               key={link.name} 

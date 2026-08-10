@@ -24,18 +24,29 @@ const AdminProducts: React.FC = () => {
 
   const handleAddProduct = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { data, error } = await supabase
-      .from('products')
-      .insert([newProduct])
-      .select()
-      .single();
-      
-    if (error) {
-      alert("Error adding product: " + error.message);
-    } else if (data) {
-      setProducts([data, ...products]);
-      setShowAdd(false);
-      setNewProduct({ name: '', key: '', price: 0, stock: 100, image: '', notes: '', description: '' });
+    try {
+      const { data, error } = await supabase
+        .from('products')
+        .insert([{
+          ...newProduct,
+          rating: 5,
+          reviews: 0
+        }])
+        .select()
+        .single();
+        
+      if (error) {
+        console.error(error);
+        alert(`Error adding product: ${error.message} (Code: ${error.code})`);
+      } else if (data) {
+        setProducts([data, ...products]);
+        setShowAdd(false);
+        setNewProduct({ name: '', key: '', price: 0, stock: 100, image: '', notes: '', description: '' });
+        alert("Product added successfully!");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Unexpected error: " + (err as Error).message);
     }
   };
 
@@ -50,17 +61,53 @@ const AdminProducts: React.FC = () => {
     }
   };
 
+  const handleSeedPerfumes = async () => {
+    if (!confirm("This will add 7 new premium perfumes to your database. Continue?")) return;
+    setLoading(true);
+    
+    const newPerfumes = [
+      { name: 'Velvet Orchid', key: 'velvet-orchid', price: 395, stock: 50, image: '/assets/white_bloom.jpg', notes: 'Black Orchid · Patchouli · Truffle', description: 'A luxurious and sensual fragrance of rich, dark accords.', is_featured: false, rating: 5, reviews: 0 },
+      { name: 'Luminous Citrus', key: 'luminous-citrus', price: 280, stock: 75, image: '/assets/ocean_mist.jpg', notes: 'Bergamot · Neroli · Vetiver', description: 'Bright, effervescent, and undeniably uplifting.', is_featured: false, rating: 5, reviews: 0 },
+      { name: 'Santal Rouge', key: 'santal-rouge', price: 410, stock: 30, image: '/assets/royal_oud.jpg', notes: 'Sandalwood · Cardamom · Violet', description: 'An intoxicating blend of creamy sandalwood and warm spices.', is_featured: true, rating: 5, reviews: 0 },
+      { name: 'Noir Mystique', key: 'noir-mystique', price: 460, stock: 25, image: '/assets/midnight_noir.jpg', notes: 'Incense · Dark Chocolate · Amber', description: 'Deeply mysterious, a fragrance for the night.', is_featured: false, rating: 5, reviews: 0 },
+      { name: 'Fleur d\'Or', key: 'fleur-d-or', price: 340, stock: 60, image: '/assets/velvet_amber.jpg', notes: 'Ylang-Ylang · Vanilla · Musk', description: 'Golden, floral, and deeply addictive.', is_featured: false, rating: 5, reviews: 0 },
+      { name: 'Azure Breeze', key: 'azure-breeze', price: 250, stock: 100, image: '/assets/ocean_mist.jpg', notes: 'Sea Salt · Sage · Driftwood', description: 'Crisp, aquatic, and refreshing as the ocean breeze.', is_featured: false, rating: 5, reviews: 0 },
+      { name: 'Imperial Leather', key: 'imperial-leather', price: 520, stock: 15, image: '/assets/midnight_noir.jpg', notes: 'Russian Leather · Birch · Juniper', description: 'A commanding, smoky leather scent of absolute authority.', is_featured: true, rating: 5, reviews: 0 }
+    ];
+
+    try {
+      const { error } = await supabase.from('products').insert(newPerfumes);
+      if (error) {
+        alert("Error seeding products: " + error.message);
+      } else {
+        alert(`Successfully added ${newPerfumes.length} new perfumes!`);
+        fetchProducts(); // Refresh the list
+      }
+    } catch (err) {
+      alert("Unexpected error: " + (err as Error).message);
+    }
+    setLoading(false);
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-2xl font-bold text-gray-900">Manage Products</h2>
-        <button 
-          onClick={() => setShowAdd(!showAdd)}
-          className="bg-[var(--matte-black)] text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-[var(--gold)] transition-colors"
-        >
-          <Plus size={16} />
-          {showAdd ? 'Cancel' : 'Add Product'}
-        </button>
+        <div className="flex gap-4">
+          <button 
+            onClick={handleSeedPerfumes}
+            className="bg-[var(--gold)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-yellow-600 transition-colors"
+          >
+            Generate 7 Perfumes
+          </button>
+          <button 
+            onClick={() => setShowAdd(!showAdd)}
+            className="bg-[var(--matte-black)] text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-800 transition-colors"
+          >
+            <Plus size={16} />
+            {showAdd ? 'Cancel' : 'Add Product'}
+          </button>
+        </div>
       </div>
 
       {showAdd && (
