@@ -1,10 +1,13 @@
 import React from 'react';
+import { useToast } from '../context/ToastContext';
 
 const Contact: React.FC = () => {
+  const { showToast } = useToast();
+
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     const input = (e.target as HTMLFormElement).querySelector('input');
-    (window as any).showToast?.('Welcome to the Aura Circle');
+    showToast('Welcome to the Aura Circle', 'success');
     if (input) input.value = '';
   };
 

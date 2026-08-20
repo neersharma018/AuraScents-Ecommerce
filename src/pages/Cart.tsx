@@ -15,7 +15,7 @@ const Cart: React.FC = () => {
         <title>Shopping Cart | AuraScents</title>
       </Helmet>
 
-      <div className="pt-32 pb-24 min-h-screen bg-[var(--bg-ivory)]">
+      <main className="pt-32 pb-24 min-h-screen bg-[var(--bg-ivory)]">
         <div className="container mx-auto px-6 lg:px-12">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -105,7 +105,7 @@ const Cart: React.FC = () => {
             </div>
           )}
         </div>
-      </div>
+      </main>
     </>
   );
 };

@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useShop } from '../context/ShopContext';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { supabase } from '../lib/supabaseClient';
 import { ShieldCheck, ArrowLeft } from 'lucide-react';
 
@@ -11,6 +12,7 @@ const Checkout: React.FC = () => {
   const { cartTotal, cart, clearCart } = useShop(); // Ensure clearCart exists in ShopContext or just use setCart([])
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { showToast } = useToast();
   
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -75,7 +77,7 @@ const Checkout: React.FC = () => {
       setIsSuccess(true);
       
     } catch (error: any) {
-      alert("Error processing order: " + error.message);
+      showToast("Error processing order: " + error.message, 'error');
     } finally {
       setIsProcessing(false);
     }
@@ -145,7 +147,7 @@ const Checkout: React.FC = () => {
         <title>Checkout | AuraScents</title>
       </Helmet>
 
-      <div className="pt-32 pb-24 min-h-screen bg-white">
+      <main className="pt-32 pb-24 min-h-screen bg-white">
         <div className="container mx-auto px-6 lg:px-12 max-w-6xl">
           <div className="mb-8">
             <Link to="/cart" className="inline-flex items-center gap-2 text-sm uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--gold)] transition-colors">
@@ -155,6 +157,10 @@ const Checkout: React.FC = () => {
 
           <div className="grid lg:grid-cols-2 gap-16">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-xl mb-8 text-sm flex gap-3 items-start">
+                <ShieldCheck className="flex-shrink-0 mt-0.5" size={18} />
+                <p><strong>Demonstration Only:</strong> This is a mock checkout for portfolio purposes. No real payments are processed, and no real data is stored permanently.</p>
+              </div>
               <h2 className="serif text-3xl mb-8">Shipping & Payment</h2>
               <form onSubmit={handleCheckout} className="space-y-6">
                 <div className="grid grid-cols-2 gap-4">
@@ -270,7 +276,7 @@ const Checkout: React.FC = () => {
             </motion.div>
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 };

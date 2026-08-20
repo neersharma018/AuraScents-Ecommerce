@@ -16,7 +16,8 @@ const BestSellers: React.FC = () => {
     const fetchFeatured = async () => {
       const { data } = await supabase.from('products').select('*').eq('is_featured', true);
       if (data) {
-        setProducts(data);
+        const uniqueProducts = Array.from(new Map(data.map(p => [p.id, p])).values()).slice(0, 4);
+        setProducts(uniqueProducts);
       }
       setLoading(false);
     };

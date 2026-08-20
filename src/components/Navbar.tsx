@@ -72,7 +72,7 @@ const Navbar: React.FC = () => {
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} id="navbar">
         <div className="container mx-auto px-6 lg:px-12 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button className="icon-btn lg:hidden" onClick={() => setMobileMenuOpen(true)}>
+            <button className="icon-btn lg:hidden" onClick={() => setMobileMenuOpen(true)} aria-label="Open menu">
               <Menu size={18} />
             </button>
             <Link to="/" className="flex items-center gap-2">
@@ -136,7 +136,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       <div className={`fixed inset-0 z-[200] bg-[var(--bg-ivory)] transition-transform duration-500 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <button className="absolute top-8 right-8 icon-btn" onClick={() => setMobileMenuOpen(false)}>
+        <button className="absolute top-8 right-8 icon-btn" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">
           <X size={20} />
         </button>
         <div className="flex flex-col items-center justify-center h-full gap-8">

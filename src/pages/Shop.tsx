@@ -14,9 +14,20 @@ const Shop: React.FC = () => {
 
   useEffect(() => {
     const fetchAllProducts = async () => {
-      const { data, error } = await supabase.from('products').select('*');
+      let query = supabase.from('products').select('*');
+      
+      const searchParams = new URLSearchParams(window.location.search);
+      const categorySlug = searchParams.get('category');
+      
+      if (categorySlug) {
+        const { data: cat } = await supabase.from('categories').select('id').eq('slug', categorySlug).single();
+        if (cat) query = query.eq('category_id', cat.id);
+      }
+      
+      const { data, error } = await query;
       if (!error && data) {
-        setProducts(data);
+        const uniqueProducts = Array.from(new Map(data.map(p => [p.id, p])).values());
+        setProducts(uniqueProducts);
       }
       setLoading(false);
     };

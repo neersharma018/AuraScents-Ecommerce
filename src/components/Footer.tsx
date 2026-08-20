@@ -39,9 +39,9 @@ const Footer: React.FC = () => {
           </p>
           
           <div className="flex items-center gap-6">
-            <a href="#" className="text-gray-500 hover:text-[var(--gold)] transition-colors"><i className="fab fa-instagram"></i></a>
-            <a href="#" className="text-gray-500 hover:text-[var(--gold)] transition-colors"><i className="fab fa-pinterest"></i></a>
-            <a href="#" className="text-gray-500 hover:text-[var(--gold)] transition-colors"><i className="fab fa-facebook-f"></i></a>
+            <a href="#" className="text-gray-500 hover:text-[var(--gold)] transition-colors" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i className="fab fa-instagram"></i></a>
+            <a href="#" className="text-gray-500 hover:text-[var(--gold)] transition-colors" aria-label="Pinterest" target="_blank" rel="noopener noreferrer"><i className="fab fa-pinterest"></i></a>
+            <a href="#" className="text-gray-500 hover:text-[var(--gold)] transition-colors" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i className="fab fa-facebook-f"></i></a>
           </div>
         </div>
       </div>

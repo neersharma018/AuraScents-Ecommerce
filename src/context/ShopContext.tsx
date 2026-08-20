@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { useAuth } from './AuthContext';
+import { useToast } from './ToastContext';
 
 export type Product = {
   id?: string;
@@ -33,6 +34,7 @@ const ShopContext = createContext<ShopContextType | undefined>(undefined);
 
 export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user } = useAuth();
+  const { showToast } = useToast();
   
   const [cart, setCart] = useState<CartItem[]>(() => {
     const saved = localStorage.getItem('aurascents_cart');
@@ -141,6 +143,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.error("Error saving to cart in DB:", err);
       }
     }
+    showToast(`${product.name} added to cart`, 'success');
   };
 
   const removeFromCart = async (productKey: string) => {
@@ -189,6 +192,12 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
           await supabase.from('wishlists').insert({ user_id: user.id, product_id: productId });
         }
       }
+    }
+    
+    if (exists) {
+      showToast(`${product.name} removed from wishlist`, 'info');
+    } else {
+      showToast(`${product.name} added to wishlist`, 'success');
     }
   };
 

@@ -8,6 +8,7 @@ import CustomCursor from './components/CustomCursor';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import Collections from './pages/Collections';
+import CollectionDetails from './pages/CollectionDetails';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
@@ -87,6 +88,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/shop" element={<Shop />} />
                 <Route path="/collections" element={<Collections />} />
+                <Route path="/collections/:slug" element={<CollectionDetails />} />
                 <Route path="/product/:id" element={<ProductDetails />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />

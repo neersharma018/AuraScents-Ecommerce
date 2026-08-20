@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
+import { useToast } from '../../context/ToastContext';
 
 const AdminProducts: React.FC = () => {
   const [products, setProducts] = useState<any[]>([]);
@@ -22,6 +23,8 @@ const AdminProducts: React.FC = () => {
     setLoading(false);
   };
 
+  const { showToast } = useToast();
+
   const handleAddProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -37,16 +40,16 @@ const AdminProducts: React.FC = () => {
         
       if (error) {
         console.error(error);
-        alert(`Error adding product: ${error.message} (Code: ${error.code})`);
+        showToast(`Error adding product: ${error.message}`, 'error');
       } else if (data) {
         setProducts([data, ...products]);
         setShowAdd(false);
         setNewProduct({ name: '', key: '', price: 0, stock: 100, image: '', notes: '', description: '' });
-        alert("Product added successfully!");
+        showToast("Product added successfully!", 'success');
       }
     } catch (err) {
       console.error(err);
-      alert("Unexpected error: " + (err as Error).message);
+      showToast("Unexpected error: " + (err as Error).message, 'error');
     }
   };
 
@@ -58,33 +61,58 @@ const AdminProducts: React.FC = () => {
       
     if (!error) {
       setProducts(products.map(p => p.id === product.id ? {...p, is_featured: !product.is_featured} : p));
+      showToast(product.is_featured ? 'Removed from featured' : 'Added to featured', 'info');
     }
   };
 
   const handleSeedPerfumes = async () => {
-    if (!confirm("This will add 7 new premium perfumes to your database. Continue?")) return;
+    if (!confirm("This will clear all existing products and seed the database with the new 12 curated AuraScents products. Continue?")) return;
     setLoading(true);
     
-    const newPerfumes = [
-      { name: 'Velvet Orchid', key: 'velvet-orchid', price: 395, stock: 50, image: '/assets/white_bloom.jpg', notes: 'Black Orchid · Patchouli · Truffle', description: 'A luxurious and sensual fragrance of rich, dark accords.', is_featured: false, rating: 5, reviews: 0 },
-      { name: 'Luminous Citrus', key: 'luminous-citrus', price: 280, stock: 75, image: '/assets/ocean_mist.jpg', notes: 'Bergamot · Neroli · Vetiver', description: 'Bright, effervescent, and undeniably uplifting.', is_featured: false, rating: 5, reviews: 0 },
-      { name: 'Santal Rouge', key: 'santal-rouge', price: 410, stock: 30, image: '/assets/royal_oud.jpg', notes: 'Sandalwood · Cardamom · Violet', description: 'An intoxicating blend of creamy sandalwood and warm spices.', is_featured: true, rating: 5, reviews: 0 },
-      { name: 'Noir Mystique', key: 'noir-mystique', price: 460, stock: 25, image: '/assets/midnight_noir.jpg', notes: 'Incense · Dark Chocolate · Amber', description: 'Deeply mysterious, a fragrance for the night.', is_featured: false, rating: 5, reviews: 0 },
-      { name: 'Fleur d\'Or', key: 'fleur-d-or', price: 340, stock: 60, image: '/assets/velvet_amber.jpg', notes: 'Ylang-Ylang · Vanilla · Musk', description: 'Golden, floral, and deeply addictive.', is_featured: false, rating: 5, reviews: 0 },
-      { name: 'Azure Breeze', key: 'azure-breeze', price: 250, stock: 100, image: '/assets/ocean_mist.jpg', notes: 'Sea Salt · Sage · Driftwood', description: 'Crisp, aquatic, and refreshing as the ocean breeze.', is_featured: false, rating: 5, reviews: 0 },
-      { name: 'Imperial Leather', key: 'imperial-leather', price: 520, stock: 15, image: '/assets/midnight_noir.jpg', notes: 'Russian Leather · Birch · Juniper', description: 'A commanding, smoky leather scent of absolute authority.', is_featured: true, rating: 5, reviews: 0 }
-    ];
-
     try {
-      const { error } = await supabase.from('products').insert(newPerfumes);
-      if (error) {
-        alert("Error seeding products: " + error.message);
-      } else {
-        alert(`Successfully added ${newPerfumes.length} new perfumes!`);
-        fetchProducts(); // Refresh the list
+      // 1. Fetch Categories
+      const { data: categories, error: catError } = await supabase.from('categories').select('*');
+      if (catError) throw catError;
+      
+      const sigId = categories.find(c => c.slug === 'signature')?.id;
+      const privId = categories.find(c => c.slug === 'private-blend')?.id;
+
+      if (!sigId || !privId) throw new Error("Categories not found!");
+
+      // 2. Clear existing products (cascades to cart_items/wishlists safely)
+      const { data: existingProducts } = await supabase.from('products').select('id');
+      if (existingProducts && existingProducts.length > 0) {
+        for (const p of existingProducts) {
+          await supabase.from('products').delete().eq('id', p.id);
+        }
       }
+
+      // 3. Define new products
+      const newPerfumes = [
+        // Signature Collection
+        { name: 'Royal Oud', key: 'royal-oud', price: 450, stock: 100, image: '/assets/royal_oud.jpg', notes: 'Oud · Sandalwood · Cedar', description: 'The most luxurious perfume. Pure sophistication and elegance.', is_featured: true, category_id: sigId },
+        { name: 'White Bloom', key: 'white-bloom', price: 360, stock: 100, image: '/assets/white_bloom.jpg', notes: 'Jasmine · Tuberose · Musk', description: 'A delicate, fresh floral composition perfectly balanced for the modern aesthete.', is_featured: false, category_id: sigId },
+        { name: 'Midnight Noir', key: 'midnight-noir', price: 420, stock: 100, image: '/assets/midnight_noir.jpg', notes: 'Leather · Tobacco · Smoke', description: 'An intense, masculine fragrance that commands absolute attention in any room.', is_featured: true, category_id: sigId },
+        { name: 'Velvet Amber', key: 'velvet-amber', price: 380, stock: 100, image: '/assets/velvet_amber.jpg', notes: 'Amber · Vanilla · Tonka Bean', description: 'Warm, intimate, and utterly addictive amber notes enveloping the senses.', is_featured: false, category_id: sigId },
+        { name: 'Ocean Mist', key: 'ocean-mist', price: 340, stock: 100, image: '/assets/ocean_mist.jpg', notes: 'Sea Salt · Bergamot · Driftwood', description: 'Fresh, ozonic, and deeply relaxing. A breath of coastal perfection.', is_featured: false, category_id: sigId },
+        { name: 'Signature Gold', key: 'signature-gold', price: 395, stock: 100, image: '/assets/hero_bottle.jpg', notes: 'Saffron · Rose · Patchouli', description: 'Our flagship signature scent. The gold standard of luxury perfumery.', is_featured: true, category_id: sigId },
+        // Private Blend
+        { name: 'Amber Royale', key: 'amber-royale', price: 520, stock: 50, image: '/assets/amber_royale.jpg', notes: 'Precious Amber · Myrrh · Labdanum', description: 'An ultra-exclusive blend reserved for true connoisseurs of rare resins.', is_featured: false, category_id: privId },
+        { name: 'Velvet Santal', key: 'velvet-santal', price: 480, stock: 50, image: '/assets/velvet_santal.jpg', notes: 'Mysore Sandalwood · Cardamom · Iris', description: 'The smoothest sandalwood imaginable, wrapped in velvet iris petals.', is_featured: false, category_id: privId },
+        { name: 'Noir Suede', key: 'noir-suede', price: 495, stock: 50, image: '/assets/noir_suede.jpg', notes: 'Black Suede · Saffron · Birch Tar', description: 'A dark, textural masterpiece mimicking the finest bespoke leather.', is_featured: false, category_id: privId },
+        { name: 'Rose Obscura', key: 'rose-obscura', price: 460, stock: 50, image: '/assets/rose_obscura.jpg', notes: 'Black Rose · Truffle · Dark Woods', description: 'A hypnotic, shadowy interpretation of the classic rose.', is_featured: false, category_id: privId },
+        { name: 'Oud Eclipse', key: 'oud-eclipse', price: 550, stock: 25, image: '/assets/oud_eclipse.jpg', notes: 'Aged Oud · Incense · Black Pepper', description: 'Our rarest oud offering. A total sensory eclipse of dark, resinous wood.', is_featured: false, category_id: privId },
+        { name: 'Silver Smoke', key: 'silver-smoke', price: 475, stock: 50, image: '/assets/silver_smoke.jpg', notes: 'Silver Frankincense · Vetiver · Ash', description: 'Ethereal, cold incense smoke lingering over ancient stones.', is_featured: false, category_id: privId }
+      ];
+
+      // 4. Insert New Products
+      const { error } = await supabase.from('products').insert(newPerfumes);
+      if (error) throw error;
+      
+      showToast(`Successfully seeded 12 premium products!`, 'success');
+      fetchProducts();
     } catch (err) {
-      alert("Unexpected error: " + (err as Error).message);
+      showToast("Error during seed: " + (err as Error).message, 'error');
     }
     setLoading(false);
   };
@@ -98,7 +126,7 @@ const AdminProducts: React.FC = () => {
             onClick={handleSeedPerfumes}
             className="bg-[var(--gold)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-yellow-600 transition-colors"
           >
-            Generate 7 Perfumes
+            Execute Catalog Seed (12 Products)
           </button>
           <button 
             onClick={() => setShowAdd(!showAdd)}

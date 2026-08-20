@@ -25,9 +25,13 @@ const Collections: React.FC = () => {
               .eq('category_id', cat.id)
               .limit(3);
               
+            const uniqueProducts = Array.from(
+              new Map((prodData || []).map((p: any) => [p.id, p])).values()
+            );
+            
             return {
               ...cat,
-              products: prodData || []
+              products: uniqueProducts
             };
           })
         );
@@ -79,7 +83,7 @@ const Collections: React.FC = () => {
                       <h2 className="serif text-4xl text-[var(--text-main)] mb-2">{category.name}</h2>
                       <p className="text-sm text-gray-500">{category.description || 'Explore the collection'}</p>
                     </div>
-                    <Link to={`/shop?category=${category.slug}`} className="text-[10px] uppercase tracking-widest font-bold text-[var(--gold)] hover:text-[var(--text-main)] transition-colors whitespace-nowrap">
+                    <Link to={`/collections/${category.slug}`} className="text-[10px] uppercase tracking-widest font-bold text-[var(--gold)] hover:text-[var(--text-main)] transition-colors whitespace-nowrap">
                       View All
                     </Link>
                   </div>
