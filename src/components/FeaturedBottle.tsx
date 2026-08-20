@@ -62,7 +62,7 @@ const FeaturedBottle: React.FC = () => {
 
         {/* Text Overlay */}
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 1, y: 0 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="absolute bottom-1/4 left-0 right-0 pointer-events-none"

@@ -41,7 +41,7 @@ const BestSellers: React.FC = () => {
     <section className="py-32 relative bg-white" id="bestsellers">
       <div className="container mx-auto px-6 lg:px-12">
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 1, y: 0 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
@@ -62,7 +62,7 @@ const BestSellers: React.FC = () => {
         </motion.div>
         
         <motion.div 
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 1 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}

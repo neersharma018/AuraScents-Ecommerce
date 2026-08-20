@@ -17,7 +17,7 @@ const Collections: React.FC = () => {
       <div className="container mx-auto px-6 lg:px-12">
         
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 1, y: 0 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.8 }}
@@ -37,7 +37,7 @@ const Collections: React.FC = () => {
           {collections.map((c, i) => (
             <motion.article 
               key={c.key} 
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 1, y: 0 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.8, delay: i * 0.15 }}
