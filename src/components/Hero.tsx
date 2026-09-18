@@ -28,9 +28,9 @@ const Hero: React.FC = () => {
             alt="Velvet Oud Perfume" 
             className="absolute drop-shadow-[0_30px_40px_rgba(0,0,0,0.8)]"
             style={{
-              width: '24%',
-              top: '40%',
-              left: '54.5%',
+              width: '32%',
+              top: '25%',
+              left: '54%',
             }}
           />
         </div>

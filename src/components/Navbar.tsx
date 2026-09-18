@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, useScroll, useSpring } from 'framer-motion';
-import { Search, Heart, User, ShoppingBag, Menu, X, LogOut } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import { useAuth } from '../context/AuthContext';
 import AuthModal from './AuthModal';
@@ -10,7 +10,7 @@ const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const { cartCount, wishlist } = useShop();
+  const { cartCount } = useShop();
   const { user, role, signOut } = useAuth();
   
   const location = useLocation();
@@ -69,68 +69,68 @@ const Navbar: React.FC = () => {
         style={{ scaleX }}
       />
       
-      <nav className={`navbar ${scrolled ? 'scrolled' : ''} ${location.pathname === '/' && !scrolled ? 'text-white' : 'text-[var(--text-main)]'}`} id="navbar">
+      <nav className={`navbar ${scrolled ? 'scrolled bg-[var(--bg-ivory)] shadow-sm' : 'bg-transparent'} py-4 md:py-6 transition-all duration-500`} id="navbar">
         <div className="container mx-auto px-6 lg:px-12 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <button className={`icon-btn lg:hidden ${location.pathname === '/' && !scrolled ? 'text-white border-white/30 hover:bg-white/10' : ''}`} onClick={() => setMobileMenuOpen(true)} aria-label="Open menu">
+          
+          {/* Left: Nav Links */}
+          <div className="flex-1 flex justify-start items-center">
+            <button className={`icon-btn lg:hidden mr-4 ${location.pathname === '/' && !scrolled ? 'text-white border-white/30' : ''}`} onClick={() => setMobileMenuOpen(true)}>
               <Menu size={18} />
             </button>
-            <Link to="/" className="flex items-center gap-2">
-              <span className={`serif text-2xl tracking-wider font-medium ${location.pathname === '/' && !scrolled ? 'text-white' : 'text-[var(--text-main)]'}`}>
+            <div className="hidden lg:flex items-center gap-8">
+              {navLinks.map((link) => (
+                <a 
+                  key={link.name} 
+                  href={link.href} 
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={`text-[9px] uppercase tracking-[0.25em] transition-colors ${location.pathname === '/' && !scrolled ? 'text-white/70 hover:text-white' : 'text-[var(--text-muted)] hover:text-black'}`}
+                >
+                  {link.name}
+                </a>
+              ))}
+            </div>
+          </div>
+          
+          {/* Center: Logo */}
+          <div className="flex-1 flex justify-center">
+            <Link to="/" className="flex items-center">
+              <span className={`serif text-3xl tracking-widest font-light transition-colors ${location.pathname === '/' && !scrolled ? 'text-white' : 'text-[var(--text-main)]'}`}>
                 Aura<span className="text-[var(--gold)] italic">Scents</span>
               </span>
             </Link>
           </div>
           
-          <div className="hidden lg:flex items-center gap-9">
-            {navLinks.map((link) => (
-              <a 
-                key={link.name} 
-                href={link.href} 
-                onClick={(e) => handleNavClick(e, link.href)}
-                className={`nav-link ${location.pathname === '/' && !scrolled ? 'text-white/80 hover:text-white' : 'text-[var(--text-main)]'}`}
-              >
-                {link.name}
-              </a>
-            ))}
-          </div>
-          
-          <div className="flex items-center gap-2">
-            <button className={`icon-btn ${location.pathname === '/' && !scrolled ? 'text-white border-white/30 hover:bg-white/10' : ''}`} aria-label="Search">
-              <Search size={16} />
+          {/* Right: Actions */}
+          <div className="flex-1 flex justify-end items-center gap-6">
+            <button className={`hidden md:block text-[9px] uppercase tracking-[0.25em] transition-colors ${location.pathname === '/' && !scrolled ? 'text-white/70 hover:text-white' : 'text-[var(--text-muted)] hover:text-black'}`} aria-label="Search">
+              SEARCH
             </button>
-            <Link to="/cart" className={`icon-btn relative ${location.pathname === '/' && !scrolled ? 'text-white border-white/30 hover:bg-white/10' : ''}`} aria-label="Wishlist">
-              <Heart size={16} />
-              {wishlist.length > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-[var(--gold)] text-white text-[9px] rounded-full flex items-center justify-center">{wishlist.length}</span>
-              )}
-            </Link>
+            
             {user ? (
-              <div className="hidden md:flex items-center gap-4">
+              <div className="hidden md:flex items-center gap-6">
                 {role === 'admin' && (
-                  <Link to="/admin" className="text-[10px] uppercase tracking-widest text-[var(--gold)] font-bold hover:underline">
-                    Admin Panel
+                  <Link to="/admin" className="text-[9px] uppercase tracking-widest text-[var(--gold)] font-medium hover:underline">
+                    Admin
                   </Link>
                 )}
-                <span className={`text-[10px] uppercase tracking-widest truncate max-w-[100px] ${location.pathname === '/' && !scrolled ? 'text-white/70' : 'text-[var(--text-muted)]'}`}>
+                <span className={`text-[9px] uppercase tracking-[0.25em] transition-colors truncate max-w-[100px] ${location.pathname === '/' && !scrolled ? 'text-white/70' : 'text-[var(--text-muted)]'}`}>
                   {user.email?.split('@')[0]}
                 </span>
-                <button className={`icon-btn ${location.pathname === '/' && !scrolled ? 'text-white border-white/30 hover:bg-white/10' : ''}`} aria-label="Sign Out" onClick={() => signOut()}>
-                  <LogOut size={16} />
+                <button className={`text-[9px] uppercase tracking-[0.25em] transition-colors ${location.pathname === '/' && !scrolled ? 'text-white/70 hover:text-white' : 'text-[var(--text-muted)] hover:text-black'}`} onClick={() => signOut()}>
+                  LOGOUT
                 </button>
               </div>
             ) : (
-              <button className={`icon-btn hidden md:flex ${location.pathname === '/' && !scrolled ? 'text-white border-white/30 hover:bg-white/10' : ''}`} aria-label="Account" onClick={() => setAuthModalOpen(true)}>
-                <User size={16} />
+              <button className={`hidden md:block text-[9px] uppercase tracking-[0.25em] transition-colors ${location.pathname === '/' && !scrolled ? 'text-white/70 hover:text-white' : 'text-[var(--text-muted)] hover:text-black'}`} onClick={() => setAuthModalOpen(true)}>
+                ACCOUNT
               </button>
             )}
-            <Link to="/cart" className={`icon-btn relative ${location.pathname === '/' && !scrolled ? 'text-white border-white/30 hover:bg-white/10' : ''}`} aria-label="Cart">
-              <ShoppingBag size={16} />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-[var(--gold)] text-white text-[9px] rounded-full flex items-center justify-center">{cartCount}</span>
-              )}
+            
+            <Link to="/cart" className={`text-[9px] uppercase tracking-[0.25em] transition-colors ${location.pathname === '/' && !scrolled ? 'text-white/70 hover:text-white' : 'text-[var(--text-muted)] hover:text-black'}`}>
+              CART ({cartCount})
             </Link>
           </div>
+          
         </div>
       </nav>
 
