@@ -79,11 +79,9 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-[13px] text-[#A3A3A3] font-light max-w-sm leading-[1.8] mb-12"
+              className="mb-12"
             >
-              At AuraScents, we craft more than perfumes.<br/>
-              We create emotions, memories and a signature<br/>
-              that stays with you — long after the moment fades.
+              {/* Removed paragraph to keep layout clean and premium */}
             </motion.div>
             
             <motion.div 
@@ -135,31 +133,6 @@ const Hero: React.FC = () => {
         </div>
       </div>
       
-      {/* Bottom Notes Row */}
-      <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 1 }}
-        className="container mx-auto px-6 lg:px-12 relative z-10 pb-8 mt-auto"
-      >
-        <div className="flex flex-wrap items-center gap-x-12 gap-y-6 text-[var(--bg-ivory)]">
-          {[
-            { label: 'TOP NOTES', val: 'BERGAMOT / CITRUS' },
-            { label: 'HEART NOTES', val: 'JASMINE / LAVENDER' },
-            { label: 'BASE NOTES', val: 'SANDALWOOD / AMBER' }
-          ].map((note, idx, arr) => (
-            <React.Fragment key={note.label}>
-              <div>
-                <div className="text-[8px] tracking-[0.25em] text-[#A3A3A3] mb-2">{note.label}</div>
-                <div className="text-[9px] tracking-[0.2em] text-[#E5E5E5] font-light">{note.val}</div>
-              </div>
-              {idx !== arr.length - 1 && (
-                <div className="hidden md:block w-px h-10 bg-white/20"></div>
-              )}
-            </React.Fragment>
-          ))}
-        </div>
-      </motion.div>
       
     </section>
   );
