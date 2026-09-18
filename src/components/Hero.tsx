@@ -18,16 +18,16 @@ const Hero: React.FC = () => {
           
           {/* Floating Perfume Bottle Synced to Background */}
           <motion.img 
-            initial={{ opacity: 0, y: 100 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.5, delay: 0.8, ease: "easeOut" }}
             src="/assets/hero-bottle.png" 
             alt="Velvet Oud Perfume" 
-            className="absolute drop-shadow-2xl"
+            className="absolute drop-shadow-[0_25px_35px_rgba(0,0,0,0.6)]"
             style={{
-              width: '21%',      /* Scaled to match the mockup */
-              top: '23%',        /* Positioned vertically on the rock */
-              left: '54.5%',     /* Positioned horizontally on the rock */
+              width: '20.5%',
+              top: '25%',
+              left: '55.5%',
             }}
           />
         </div>
@@ -42,12 +42,12 @@ const Hero: React.FC = () => {
         <div className="flex flex-col lg:flex-row justify-between items-center w-full mt-20">
           
           {/* Left Text Content */}
-          <div className="w-full lg:w-1/2 text-[var(--bg-ivory)]">
+          <div className="w-full lg:w-[45%] text-[var(--bg-ivory)]">
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-[11px] tracking-[0.3em] uppercase text-white/70 mb-8"
+              className="text-[10px] tracking-[0.4em] uppercase text-[#D4D4D4] mb-6 font-medium"
             >
               EAU DE PARFUM
             </motion.div>
@@ -56,17 +56,17 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="serif text-5xl md:text-7xl lg:text-[5.5rem] mb-6 text-white leading-[1.1]" 
+              className="serif text-6xl md:text-[5rem] lg:text-[6.5rem] mb-5 text-[#F5F5F5] leading-[1.05]" 
             >
               More Than <br/>
-              Just a <span className="italic font-light">Scent.</span>
+              Just a <span className="italic font-light tracking-tight">Scent.</span>
             </motion.h1>
             
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="text-sm tracking-[0.2em] uppercase text-white/80 mb-10"
+              className="text-[11px] tracking-[0.35em] uppercase text-[#D4D4D4] mb-8 font-light"
             >
               IT'S AN EXPERIENCE.
             </motion.div>
@@ -75,7 +75,7 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-base text-white/70 font-light max-w-md leading-relaxed mb-12"
+              className="text-[13px] text-[#A3A3A3] font-light max-w-sm leading-[1.8] mb-12"
             >
               At AuraScents, we craft more than perfumes.<br/>
               We create emotions, memories and a signature<br/>
@@ -89,10 +89,10 @@ const Hero: React.FC = () => {
             >
               <button 
                 onClick={() => document.getElementById('fragrances')?.scrollIntoView({behavior:'smooth'})}
-                className="group flex items-center gap-4 text-xs tracking-[0.2em] uppercase text-white hover:text-[var(--gold)] transition-colors pb-2 border-b border-white/30 hover:border-[var(--gold)]"
+                className="group flex items-center gap-5 text-[10px] tracking-[0.3em] uppercase text-[#E5E5E5] hover:text-[var(--gold)] transition-colors pb-3 border-b border-[#E5E5E5]/30 hover:border-[var(--gold)]"
               >
                 DISCOVER THE SCENT
-                <ArrowRight size={16} className="transform group-hover:translate-x-2 transition-transform duration-300" />
+                <ArrowRight size={14} className="transform group-hover:translate-x-3 transition-transform duration-300 font-light" strokeWidth={1.5} />
               </button>
             </motion.div>
           </div>
@@ -111,18 +111,18 @@ const Hero: React.FC = () => {
                 transition={{ duration: 0.8, delay: 0.6 + (idx * 0.2) }}
                 className="relative flex items-center gap-6"
               >
-                <div className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-xs font-light">
+                <div className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-[10px] font-light">
                   {step.num}
                 </div>
                 
                 {/* Vertical connecting line */}
                 {idx !== arr.length - 1 && (
-                  <div className="absolute left-5 top-10 w-px h-12 bg-white/20"></div>
+                  <div className="absolute left-[17.5px] top-9 w-[1px] h-12 bg-white/10"></div>
                 )}
                 
                 <div>
-                  <div className="text-[10px] text-white/50 tracking-[0.1em] mb-1">{step.title}</div>
-                  <div className="serif text-lg tracking-wide text-white/90">{step.val}</div>
+                  <div className="text-[9px] text-[#A3A3A3] tracking-[0.15em] mb-1">{step.title}</div>
+                  <div className="serif text-[15px] tracking-wide text-[#E5E5E5]">{step.val}</div>
                 </div>
               </motion.div>
             ))}
@@ -146,8 +146,8 @@ const Hero: React.FC = () => {
           ].map((note, idx, arr) => (
             <React.Fragment key={note.label}>
               <div>
-                <div className="text-[9px] tracking-[0.2em] text-white/60 mb-2">{note.label}</div>
-                <div className="text-[10px] tracking-[0.15em] text-white font-light">{note.val}</div>
+                <div className="text-[8px] tracking-[0.25em] text-[#A3A3A3] mb-2">{note.label}</div>
+                <div className="text-[9px] tracking-[0.2em] text-[#E5E5E5] font-light">{note.val}</div>
               </div>
               {idx !== arr.length - 1 && (
                 <div className="hidden md:block w-px h-10 bg-white/20"></div>
