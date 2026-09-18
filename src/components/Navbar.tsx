@@ -69,14 +69,14 @@ const Navbar: React.FC = () => {
         style={{ scaleX }}
       />
       
-      <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} id="navbar">
+      <nav className={`navbar ${scrolled ? 'scrolled' : ''} ${location.pathname === '/' && !scrolled ? 'text-white' : 'text-[var(--text-main)]'}`} id="navbar">
         <div className="container mx-auto px-6 lg:px-12 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button className="icon-btn lg:hidden" onClick={() => setMobileMenuOpen(true)} aria-label="Open menu">
+            <button className={`icon-btn lg:hidden ${location.pathname === '/' && !scrolled ? 'text-white border-white/30 hover:bg-white/10' : ''}`} onClick={() => setMobileMenuOpen(true)} aria-label="Open menu">
               <Menu size={18} />
             </button>
             <Link to="/" className="flex items-center gap-2">
-              <span className="serif text-2xl tracking-wider font-medium text-[var(--text-main)]">
+              <span className={`serif text-2xl tracking-wider font-medium ${location.pathname === '/' && !scrolled ? 'text-white' : 'text-[var(--text-main)]'}`}>
                 Aura<span className="text-[var(--gold)] italic">Scents</span>
               </span>
             </Link>
@@ -88,7 +88,7 @@ const Navbar: React.FC = () => {
                 key={link.name} 
                 href={link.href} 
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="nav-link"
+                className={`nav-link ${location.pathname === '/' && !scrolled ? 'text-white/80 hover:text-white' : 'text-[var(--text-main)]'}`}
               >
                 {link.name}
               </a>
@@ -96,10 +96,10 @@ const Navbar: React.FC = () => {
           </div>
           
           <div className="flex items-center gap-2">
-            <button className="icon-btn" aria-label="Search">
+            <button className={`icon-btn ${location.pathname === '/' && !scrolled ? 'text-white border-white/30 hover:bg-white/10' : ''}`} aria-label="Search">
               <Search size={16} />
             </button>
-            <Link to="/cart" className="icon-btn relative" aria-label="Wishlist">
+            <Link to="/cart" className={`icon-btn relative ${location.pathname === '/' && !scrolled ? 'text-white border-white/30 hover:bg-white/10' : ''}`} aria-label="Wishlist">
               <Heart size={16} />
               {wishlist.length > 0 && (
                 <span className="absolute -top-1 -right-1 w-4 h-4 bg-[var(--gold)] text-white text-[9px] rounded-full flex items-center justify-center">{wishlist.length}</span>
@@ -112,19 +112,19 @@ const Navbar: React.FC = () => {
                     Admin Panel
                   </Link>
                 )}
-                <span className="text-[10px] uppercase tracking-widest text-[var(--text-muted)] truncate max-w-[100px]">
+                <span className={`text-[10px] uppercase tracking-widest truncate max-w-[100px] ${location.pathname === '/' && !scrolled ? 'text-white/70' : 'text-[var(--text-muted)]'}`}>
                   {user.email?.split('@')[0]}
                 </span>
-                <button className="icon-btn" aria-label="Sign Out" onClick={() => signOut()}>
+                <button className={`icon-btn ${location.pathname === '/' && !scrolled ? 'text-white border-white/30 hover:bg-white/10' : ''}`} aria-label="Sign Out" onClick={() => signOut()}>
                   <LogOut size={16} />
                 </button>
               </div>
             ) : (
-              <button className="icon-btn hidden md:flex" aria-label="Account" onClick={() => setAuthModalOpen(true)}>
+              <button className={`icon-btn hidden md:flex ${location.pathname === '/' && !scrolled ? 'text-white border-white/30 hover:bg-white/10' : ''}`} aria-label="Account" onClick={() => setAuthModalOpen(true)}>
                 <User size={16} />
               </button>
             )}
-            <Link to="/cart" className="icon-btn relative" aria-label="Cart">
+            <Link to="/cart" className={`icon-btn relative ${location.pathname === '/' && !scrolled ? 'text-white border-white/30 hover:bg-white/10' : ''}`} aria-label="Cart">
               <ShoppingBag size={16} />
               {cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 w-4 h-4 bg-[var(--gold)] text-white text-[9px] rounded-full flex items-center justify-center">{cartCount}</span>

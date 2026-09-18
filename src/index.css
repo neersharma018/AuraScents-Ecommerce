@@ -179,7 +179,6 @@ h1, h2, h3, h4, .serif {
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-main);
   transition: color 0.3s ease;
   position: relative;
   font-weight: 500;
@@ -200,7 +199,6 @@ h1, h2, h3, h4, .serif {
   width: 44px; height: 44px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 50%;
-  color: var(--text-main);
   transition: all 0.3s ease;
   cursor: pointer;
   border: 1px solid var(--border-dark);

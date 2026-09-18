@@ -1,25 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
+import { ArrowRight } from 'lucide-react';
 
 const Hero: React.FC = () => {
   const [heroData, setHeroData] = useState({
-    title: 'Crafted To Become Your <br /> <span class="text-gold-italic">Signature</span>',
-    subtitle: 'Discover handcrafted fragrances designed to leave an unforgettable impression. Every bottle is blended with rare ingredients and timeless craftsmanship.',
-    button_text: 'Explore Collection',
-    button_link: '/collections',
     background_image: '/assets/hero_bottle.jpg'
   });
 
   useEffect(() => {
     const fetchHero = async () => {
       const { data } = await supabase.from('home_section').select('*').eq('section_key', 'hero').single();
-      if (data) {
+      if (data && data.background_image) {
         setHeroData({
-          title: data.title,
-          subtitle: data.subtitle,
-          button_text: data.button_text,
-          button_link: data.button_link === '#collections' ? '/collections' : data.button_link,
           background_image: data.background_image
         });
       }
@@ -28,123 +21,137 @@ const Hero: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen pt-32 pb-20 overflow-hidden flex items-center bg-[var(--bg-ivory)]" id="home">
-      <div className="absolute inset-0 smoke-overlay"></div>
+    <section className="relative min-h-screen pt-32 pb-20 overflow-hidden flex flex-col justify-center" id="home">
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroData.background_image})` }}
+      />
       
-      {/* Decorative Brand Text */}
-      <motion.div 
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1, delay: 0.5 }}
-        className="absolute left-6 top-1/2 -translate-y-1/2 hidden lg:block z-10" 
-        style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
-      >
-        <div className="text-[9px] tracking-[0.4em] uppercase text-[var(--gold)]">
-          Maison de Parfum · Paris
-        </div>
-      </motion.div>
+      {/* Dark Overlay for Text Readability */}
+      <div className="absolute inset-0 bg-black/40 z-0"></div>
       
-      <div className="container mx-auto px-6 lg:px-12 relative z-10">
-        <div className="grid lg:grid-cols-12 gap-12 items-center min-h-[80vh]">
+      <div className="container mx-auto px-6 lg:px-12 relative z-10 flex-grow flex flex-col justify-center">
+        
+        {/* Main Content Layout */}
+        <div className="flex flex-col lg:flex-row justify-between items-center w-full mt-20">
           
-          {/* Text Content */}
-          <div className="lg:col-span-6 z-10">
+          {/* Left Text Content */}
+          <div className="w-full lg:w-1/2 text-[var(--bg-ivory)]">
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="eyebrow mb-8"
+              className="text-[11px] tracking-[0.3em] uppercase text-white/70 mb-8"
             >
-              Maison de Parfum
+              EAU DE PARFUM
             </motion.div>
             
             <motion.h1 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="serif text-5xl md:text-7xl lg:text-[6rem] mb-8 text-[var(--text-main)]" 
-              style={{ lineHeight: 0.95 }}
-              dangerouslySetInnerHTML={{ __html: heroData.title }}
-            />
+              className="serif text-5xl md:text-7xl lg:text-[5.5rem] mb-6 text-white leading-[1.1]" 
+            >
+              More Than <br/>
+              Just a <span className="italic font-light">Scent.</span>
+            </motion.h1>
             
-            <motion.p 
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="text-sm tracking-[0.2em] uppercase text-white/80 mb-10"
+            >
+              IT'S AN EXPERIENCE.
+            </motion.div>
+            
+            <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-base md:text-lg max-w-md mb-10 text-[var(--text-muted)]"
+              className="text-base text-white/70 font-light max-w-md leading-relaxed mb-12"
             >
-              {heroData.subtitle}
-            </motion.p>
+              At AuraScents, we craft more than perfumes.<br/>
+              We create emotions, memories and a signature<br/>
+              that stays with you — long after the moment fades.
+            </motion.div>
             
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex flex-wrap gap-5"
             >
-              <button className="btn-gold" onClick={() => {
-                if (heroData.button_link.startsWith('#')) {
-                  document.getElementById(heroData.button_link.substring(1))?.scrollIntoView({behavior:'smooth'})
-                } else {
-                  window.location.href = heroData.button_link;
-                }
-              }}>
-                {heroData.button_text}
-              </button>
-              <button className="btn-outline" onClick={() => document.getElementById('story')?.scrollIntoView({behavior:'smooth'})}>
-                Discover Story
+              <button 
+                onClick={() => document.getElementById('fragrances')?.scrollIntoView({behavior:'smooth'})}
+                className="group flex items-center gap-4 text-xs tracking-[0.2em] uppercase text-white hover:text-[var(--gold)] transition-colors pb-2 border-b border-white/30 hover:border-[var(--gold)]"
+              >
+                DISCOVER THE SCENT
+                <ArrowRight size={16} className="transform group-hover:translate-x-2 transition-transform duration-300" />
               </button>
             </motion.div>
           </div>
           
-          {/* Hero Bottle Imagery */}
-          <div className="lg:col-span-6 relative flex justify-center items-center mt-12 lg:mt-0 h-[600px]">
-            {/* Ambient Background Glow */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.5, ease: 'easeOut' }}
-              className="absolute w-[500px] h-[500px] rounded-full" 
-              style={{ background: 'radial-gradient(circle, rgba(201,162,39,0.15) 0%, transparent 60%)' }}
-            />
-            
-            {/* Cinematic Floating Particles */}
-            {[...Array(6)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-2 h-2 rounded-full bg-[var(--gold-light)] blur-[1px]"
-                animate={{
-                  y: [Math.random() * -100, Math.random() * -300],
-                  x: Math.random() * 200 - 100,
-                  opacity: [0, 0.6, 0]
-                }}
-                transition={{
-                  duration: Math.random() * 5 + 5,
-                  repeat: Infinity,
-                  ease: "linear",
-                  delay: Math.random() * 2
-                }}
-                style={{ top: '80%', left: '50%' }}
-              />
-            ))}
-
-            {/* Floating Image */}
-            <motion.div 
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
-              className="relative z-10 floating"
-            >
-              <div className="relative overflow-hidden rounded-[2rem] shadow-2xl bg-white" style={{ width: '400px', height: '540px' }}>
-                <img src={heroData.background_image} alt="AuraScents Signature Perfume" className="w-full h-full object-cover" />
+          {/* Right Stepper */}
+          <div className="hidden lg:flex flex-col gap-12 mt-20 lg:mt-0 text-[var(--bg-ivory)]">
+            {[
+              { num: '01', title: 'Top Notes', val: 'Bergamot' },
+              { num: '02', title: 'Heart Notes', val: 'Jasmine' },
+              { num: '03', title: 'Base Notes', val: 'Sandalwood' }
+            ].map((step, idx, arr) => (
+              <motion.div 
+                key={step.num}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 + (idx * 0.2) }}
+                className="relative flex items-center gap-6"
+              >
+                <div className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-xs font-light">
+                  {step.num}
+                </div>
                 
-                {/* Inner glass reflection border */}
-                <div className="absolute inset-0 border border-white/40 rounded-[2rem] pointer-events-none shadow-[inset_0_0_40px_rgba(255,255,255,0.2)]"></div>
-              </div>
-            </motion.div>
+                {/* Vertical connecting line */}
+                {idx !== arr.length - 1 && (
+                  <div className="absolute left-5 top-10 w-px h-12 bg-white/20"></div>
+                )}
+                
+                <div>
+                  <div className="text-[10px] text-white/50 tracking-[0.1em] mb-1">{step.title}</div>
+                  <div className="serif text-lg tracking-wide text-white/90">{step.val}</div>
+                </div>
+              </motion.div>
+            ))}
           </div>
+          
         </div>
       </div>
+      
+      {/* Bottom Notes Row */}
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 1 }}
+        className="container mx-auto px-6 lg:px-12 relative z-10 pb-8 mt-auto"
+      >
+        <div className="flex flex-wrap items-center gap-x-12 gap-y-6 text-[var(--bg-ivory)]">
+          {[
+            { label: 'TOP NOTES', val: 'BERGAMOT / CITRUS' },
+            { label: 'HEART NOTES', val: 'JASMINE / LAVENDER' },
+            { label: 'BASE NOTES', val: 'SANDALWOOD / AMBER' }
+          ].map((note, idx, arr) => (
+            <React.Fragment key={note.label}>
+              <div>
+                <div className="text-[9px] tracking-[0.2em] text-white/60 mb-2">{note.label}</div>
+                <div className="text-[10px] tracking-[0.15em] text-white font-light">{note.val}</div>
+              </div>
+              {idx !== arr.length - 1 && (
+                <div className="hidden md:block w-px h-10 bg-white/20"></div>
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </motion.div>
+      
     </section>
   );
 };
