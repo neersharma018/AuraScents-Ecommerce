@@ -1,24 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { supabase } from '../lib/supabaseClient';
 import { ArrowRight } from 'lucide-react';
 
 const Hero: React.FC = () => {
-  const [heroData, setHeroData] = useState({
-    background_image: '/assets/hero_bottle.jpg'
-  });
-
-  useEffect(() => {
-    const fetchHero = async () => {
-      const { data } = await supabase.from('home_section').select('*').eq('section_key', 'hero').single();
-      if (data && data.background_image) {
-        setHeroData({
-          background_image: data.background_image
-        });
-      }
-    };
-    fetchHero();
-  }, []);
 
   return (
     <section className="relative min-h-screen pt-32 pb-20 overflow-hidden flex flex-col justify-center" id="home">
