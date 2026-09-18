@@ -22,14 +22,35 @@ const Hero: React.FC = () => {
 
   return (
     <section className="relative min-h-screen pt-32 pb-20 overflow-hidden flex flex-col justify-center" id="home">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroData.background_image})` }}
-      />
+      {/* Composited Background & Bottle */}
+      <div className="absolute inset-0 z-0 overflow-hidden bg-black pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh]">
+          {/* Base Background (Empty Room) */}
+          <img 
+            src="/assets/hero-bg-empty.jpg" 
+            className="absolute inset-0 w-full h-full object-cover" 
+            alt="Cinematic Background" 
+          />
+          
+          {/* Floating Perfume Bottle Synced to Background */}
+          <motion.img 
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.5, delay: 0.8, ease: "easeOut" }}
+            src="/assets/hero-bottle.png" 
+            alt="Velvet Oud Perfume" 
+            className="absolute drop-shadow-2xl"
+            style={{
+              width: '21%',      /* Scaled to match the mockup */
+              top: '23%',        /* Positioned vertically on the rock */
+              left: '54.5%',     /* Positioned horizontally on the rock */
+            }}
+          />
+        </div>
+      </div>
       
       {/* Dark Overlay for Text Readability */}
-      <div className="absolute inset-0 bg-black/40 z-0"></div>
+      <div className="absolute inset-0 bg-black/30 z-0"></div>
       
       <div className="container mx-auto px-6 lg:px-12 relative z-10 flex-grow flex flex-col justify-center">
         
