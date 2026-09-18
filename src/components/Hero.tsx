@@ -10,7 +10,10 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 z-0 overflow-hidden bg-black pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh]">
           {/* Base Background (Empty Room) */}
-          <img 
+          <motion.img 
+            initial={{ scale: 1.08 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 10, ease: "easeOut" }}
             src="/assets/hero-bg-empty.jpg" 
             className="absolute inset-0 w-full h-full object-cover" 
             alt="Cinematic Background" 
@@ -23,18 +26,19 @@ const Hero: React.FC = () => {
             transition={{ duration: 1.5, delay: 0.8, ease: "easeOut" }}
             src="/assets/hero-bottle.png" 
             alt="Velvet Oud Perfume" 
-            className="absolute drop-shadow-[0_25px_35px_rgba(0,0,0,0.6)]"
+            className="absolute drop-shadow-[0_30px_40px_rgba(0,0,0,0.8)]"
             style={{
-              width: '21%',
-              top: '42.5%',
-              left: '56.5%',
+              width: '24%',
+              top: '40%',
+              left: '54.5%',
             }}
           />
         </div>
       </div>
       
-      {/* Dark Overlay for Text Readability */}
-      <div className="absolute inset-0 bg-black/30 z-0"></div>
+      {/* Cinematic Overlays */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.6)_100%)] z-0 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-black/20 z-0 pointer-events-none"></div>
       
       <div className="container mx-auto px-6 lg:px-12 relative z-10 flex-grow flex flex-col justify-center">
         
