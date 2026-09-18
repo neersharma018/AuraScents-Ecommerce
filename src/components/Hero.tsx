@@ -75,14 +75,7 @@ const Hero: React.FC = () => {
               IT'S AN EXPERIENCE.
             </motion.div>
             
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="mb-12"
-            >
-              {/* Removed paragraph to keep layout clean and premium */}
-            </motion.div>
+
             
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
