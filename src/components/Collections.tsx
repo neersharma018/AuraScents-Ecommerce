@@ -48,7 +48,6 @@ const containerVariants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.2
     }
   },
   exit: {
@@ -64,18 +63,15 @@ const bottleVariants = {
   hidden: (direction: number) => ({
     opacity: 0,
     x: direction > 0 ? 80 : -80,
-    scale: 0.95,
   }),
   visible: {
     opacity: 1,
     x: 0,
-    scale: 1,
     transition: { duration: 1.0, ease: easeOutQuart }
   },
   exit: (direction: number) => ({
     opacity: 0,
     x: direction > 0 ? -80 : 80,
-    scale: 0.95,
     transition: { duration: 0.6, ease: easeOutQuart }
   })
 };
@@ -88,7 +84,7 @@ const textVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: easeOutQuart, delay: 0.3 }
+    transition: { duration: 0.8, ease: easeOutQuart, delay: 0.2 }
   },
   exit: (direction: number) => ({
     opacity: 0,
@@ -117,7 +113,6 @@ const Collections: React.FC = () => {
     setActiveIndex((prev) => (prev - 1 + collectionsData.length) % collectionsData.length);
   }, [isAnimating]);
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') handleNext();
@@ -127,7 +122,6 @@ const Collections: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleNext, handlePrev]);
 
-  // Unlock animation after 1000ms
   useEffect(() => {
     if (isAnimating) {
       const timer = setTimeout(() => setIsAnimating(false), 1000);
@@ -137,45 +131,30 @@ const Collections: React.FC = () => {
 
   const activeCollection = collectionsData[activeIndex];
 
-  // Specific layout positioning for 4 bottles to look artistic and editorial
-  const getBottleStyle = (index: number) => {
-    // These base positions are relative to a relative container (max-w-4xl)
-    const styles = [
-      { left: '10%', top: '15%', zIndex: 10, scale: 0.85 },
-      { left: '30%', top: '0%', zIndex: 30, scale: 1.1 },
-      { left: '50%', top: '10%', zIndex: 20, scale: 0.95 },
-      { left: '70%', top: '25%', zIndex: 5, scale: 0.75 },
-    ];
-    return styles[index];
-  };
-
   return (
-    <section className="relative min-h-[90vh] bg-[#FDFBF7] overflow-hidden flex flex-col pt-24 pb-16" id="collections">
+    <section className="relative min-h-[100vh] bg-[#FDFBF7] overflow-hidden flex flex-col pt-16 pb-12" id="collections">
       
-      {/* Background subtle mandala or gradient (Simulating the Aevolk aesthetic) */}
+      {/* Background subtle mandala */}
       <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
         <div className="w-[800px] h-[800px] rounded-full border border-black animate-[spin_60s_linear_infinite] border-dashed"></div>
         <div className="absolute w-[600px] h-[600px] rounded-full border border-black animate-[spin_40s_linear_infinite_reverse]"></div>
       </div>
 
       {/* Top Header */}
-      <div className="container mx-auto px-6 text-center z-20 mb-10">
-        <h2 className="serif text-5xl md:text-7xl text-[var(--text-main)] font-light tracking-tight mb-8">
-          A wardrobe of <span className="italic">memory.</span>
-        </h2>
-        <div className="text-[10px] tracking-[0.4em] uppercase text-gray-400 mb-6">
+      <div className="container mx-auto px-6 text-center z-20 mb-8">
+        <h2 className="text-[10px] tracking-[0.4em] uppercase text-gray-400 mb-6">
           The AuraScents Collections
-        </div>
-        <div className="w-px h-10 bg-gray-300 mx-auto"></div>
+        </h2>
+        <div className="w-px h-8 bg-gray-300 mx-auto"></div>
       </div>
 
       {/* Main Showcase Area */}
-      <div className="flex-1 flex flex-col justify-center relative w-full max-w-[1400px] mx-auto px-4 md:px-12">
+      <div className="flex-1 flex flex-col justify-center items-center relative w-full max-w-[1400px] mx-auto px-4 md:px-12">
         
-        {/* Navigation Controls - Hidden on very small screens, shown on md+ */}
+        {/* Navigation Controls */}
         <button 
           onClick={handlePrev}
-          className="absolute left-2 md:left-12 top-[40%] md:top-1/2 -translate-y-1/2 z-50 w-10 h-10 md:w-14 md:h-14 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[var(--gold)] hover:border-[var(--gold)] transition-all duration-300 bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md"
+          className="absolute left-2 md:left-12 top-1/2 -translate-y-1/2 z-50 w-10 h-10 md:w-14 md:h-14 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[var(--gold)] hover:border-[var(--gold)] transition-all duration-300 bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md"
           aria-label="Previous Collection"
         >
           <ChevronLeft size={20} strokeWidth={1} />
@@ -183,12 +162,13 @@ const Collections: React.FC = () => {
 
         <button 
           onClick={handleNext}
-          className="absolute right-2 md:right-12 top-[40%] md:top-1/2 -translate-y-1/2 z-50 w-10 h-10 md:w-14 md:h-14 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[var(--gold)] hover:border-[var(--gold)] transition-all duration-300 bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md"
+          className="absolute right-2 md:right-12 top-1/2 -translate-y-1/2 z-50 w-10 h-10 md:w-14 md:h-14 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[var(--gold)] hover:border-[var(--gold)] transition-all duration-300 bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md"
           aria-label="Next Collection"
         >
           <ChevronRight size={20} strokeWidth={1} />
         </button>
 
+        {/* Carousel Container */}
         <div className="w-full h-full flex flex-col items-center justify-center relative">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
@@ -198,33 +178,31 @@ const Collections: React.FC = () => {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="flex flex-col items-center w-full h-full justify-center absolute inset-0"
+              className="flex flex-col items-center justify-center w-full"
             >
-              {/* Artistic Bottle Arrangement */}
-              <div className="relative w-[90%] md:w-full max-w-4xl h-[40vh] md:h-[50vh] mt-4 mb-8 md:mb-12">
+              
+              {/* Row of Bottles (NOT Absolute/Overlapping) */}
+              <div className="flex flex-row flex-nowrap justify-center items-end gap-2 md:gap-8 w-full max-w-5xl h-[40vh] md:h-[50vh] mb-8 px-8">
                 {activeCollection.perfumes.map((p, idx) => {
-                  const style = getBottleStyle(idx);
+                  // Make center bottles slightly larger to create a natural curve
+                  const isCenter = idx === 1 || idx === 2;
                   return (
                     <motion.div
                       key={p.key}
                       custom={direction}
                       variants={bottleVariants}
-                      className="absolute cursor-pointer transition-transform duration-500 hover:brightness-110"
-                      style={{
-                        left: style.left,
-                        top: style.top,
-                        zIndex: style.zIndex,
-                        transform: `scale(${style.scale})`,
-                        width: '25%', // responsive width based on container
-                      }}
+                      className={`relative cursor-pointer transition-transform duration-500 hover:brightness-110 w-1/4 ${isCenter ? 'scale-110 z-20' : 'scale-90 z-10 opacity-90'}`}
                       onClick={() => navigate(`/product/${p.key}`)}
                     >
-                      {/* Using a wrapper for scale-hover without interfering with framer-motion variants */}
-                      <div className="w-full h-full transform transition-transform duration-700 hover:scale-105 hover:-translate-y-4 relative">
+                      <div className="w-full h-full transform transition-transform duration-700 hover:scale-105 hover:-translate-y-4">
                         <img 
                           src={p.image} 
                           alt={p.name} 
-                          className="w-full h-auto object-contain filter drop-shadow-[0_25px_35px_rgba(0,0,0,0.25)] relative z-10"
+                          className="w-full h-auto max-h-[100%] object-contain filter drop-shadow-[0_25px_35px_rgba(0,0,0,0.15)]"
+                          onError={(e) => {
+                            // Fallback if the transparent image is missing or broken
+                            (e.target as HTMLImageElement).src = `/assets/perfumes/${p.key}.jpg`;
+                          }}
                         />
                       </div>
                     </motion.div>
@@ -232,19 +210,19 @@ const Collections: React.FC = () => {
                 })}
               </div>
 
-              {/* Collection Info */}
+              {/* Collection Info (Bottom) */}
               <motion.div 
                 custom={direction}
                 variants={textVariants}
-                className="text-center flex flex-col items-center px-4"
+                className="text-center flex flex-col items-center"
               >
-                <div className="flex items-center gap-4 text-[10px] md:text-xs tracking-[0.3em] text-gray-400 mb-6 font-light">
+                <div className="flex items-center gap-4 text-[10px] md:text-xs tracking-[0.3em] text-gray-400 mb-4 font-light">
                   <span>{String(activeIndex + 1).padStart(2, '0')}</span>
                   <span className="w-6 md:w-8 h-[1px] bg-gray-300"></span>
                   <span>{String(collectionsData.length).padStart(2, '0')}</span>
                 </div>
                 
-                <h3 className="serif text-3xl md:text-5xl text-[var(--text-main)] mb-3 tracking-wide">
+                <h3 className="serif text-4xl md:text-6xl text-[var(--text-main)] mb-3 tracking-wide">
                   {activeCollection.name}
                 </h3>
                 
