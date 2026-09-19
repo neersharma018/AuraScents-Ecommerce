@@ -198,7 +198,11 @@ const Collections: React.FC = () => {
                         <img 
                           src={p.image} 
                           alt={p.name} 
-                          className="w-full h-auto max-h-[100%] object-contain filter drop-shadow-[0_25px_35px_rgba(0,0,0,0.15)]"
+                          className="w-full h-auto max-h-[100%] object-contain filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.15)]"
+                          style={{
+                            WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
+                            maskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)'
+                          }}
                           onError={(e) => {
                             // Fallback if the transparent image is missing or broken
                             (e.target as HTMLImageElement).src = `/assets/perfumes/${p.key}.jpg`;
