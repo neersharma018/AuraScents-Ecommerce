@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const featuredPerfumes = [
@@ -84,71 +84,71 @@ const Collections: React.FC = () => {
   const bottleVariants = {
     center: {
       x: 0,
-      scale: 1.1,
+      scale: 1.15,
       opacity: 1,
       zIndex: 30,
-      transition: { duration: 0.8, ease: cinematicEase }
+      transition: { duration: 0.9, ease: cinematicEase }
     },
     left: {
-      x: '-55%',
-      scale: 0.7,
-      opacity: 0.5,
+      x: '-70%',
+      scale: 0.6,
+      opacity: 0.25,
       zIndex: 10,
-      transition: { duration: 0.8, ease: cinematicEase }
+      transition: { duration: 0.9, ease: cinematicEase }
     },
     right: {
-      x: '55%',
-      scale: 0.7,
-      opacity: 0.5,
+      x: '70%',
+      scale: 0.6,
+      opacity: 0.25,
       zIndex: 10,
-      transition: { duration: 0.8, ease: cinematicEase }
+      transition: { duration: 0.9, ease: cinematicEase }
     },
     hidden: {
       x: 0,
-      scale: 0.5,
+      scale: 0.4,
       opacity: 0,
       zIndex: 0,
-      transition: { duration: 0.8, ease: cinematicEase }
+      transition: { duration: 0.9, ease: cinematicEase }
     }
   };
 
   const textVariants = {
     hidden: { opacity: 0, y: 15 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: cinematicEase, delay: 0.1 } },
-    exit: { opacity: 0, y: -15, transition: { duration: 0.4, ease: cinematicEase } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: cinematicEase, delay: 0.2 } },
+    exit: { opacity: 0, y: -15, transition: { duration: 0.5, ease: cinematicEase } }
   };
 
   return (
-    <section className="relative min-h-[90vh] bg-[#FDFBF7] overflow-hidden flex flex-col justify-center items-center py-24" id="featured">
+    <section className="relative min-h-screen bg-[#050505] overflow-hidden flex flex-col justify-center items-center py-16" id="featured">
       
-      {/* Background cinematic elements */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-[0.015] pointer-events-none z-0">
-        <div className="w-[800px] h-[800px] md:w-[1200px] md:h-[1200px] rounded-full border-[0.5px] border-black animate-[spin_80s_linear_infinite] border-dashed"></div>
-        <div className="absolute w-[600px] h-[600px] md:w-[900px] md:h-[900px] rounded-full border-[0.5px] border-black animate-[spin_60s_linear_infinite_reverse]"></div>
+      {/* Cinematic Spotlight Background */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+        <div className="w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_60%)] blur-3xl"></div>
       </div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)] z-0 pointer-events-none"></div>
 
       {/* Main Container */}
-      <div className="w-full max-w-[1400px] mx-auto relative z-10 flex flex-col items-center">
+      <div className="w-full max-w-[1600px] mx-auto relative z-10 flex flex-col items-center">
         
         {/* Navigation Buttons */}
         <button 
           onClick={handlePrev}
-          className="absolute left-4 md:left-12 top-[45%] -translate-y-1/2 z-50 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center text-gray-400 hover:text-[var(--gold)] transition-colors duration-500 group"
+          className="absolute left-2 md:left-12 top-[45%] -translate-y-1/2 z-50 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center text-gray-500 hover:text-white transition-colors duration-500 group"
           aria-label="Previous"
         >
-          <ChevronLeft size={32} strokeWidth={1} className="transform group-hover:-translate-x-1 transition-transform duration-300" />
+          <ChevronLeft size={36} strokeWidth={1} className="transform group-hover:-translate-x-2 transition-transform duration-500" />
         </button>
 
         <button 
           onClick={handleNext}
-          className="absolute right-4 md:right-12 top-[45%] -translate-y-1/2 z-50 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center text-gray-400 hover:text-[var(--gold)] transition-colors duration-500 group"
+          className="absolute right-2 md:right-12 top-[45%] -translate-y-1/2 z-50 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center text-gray-500 hover:text-white transition-colors duration-500 group"
           aria-label="Next"
         >
-          <ChevronRight size={32} strokeWidth={1} className="transform group-hover:translate-x-1 transition-transform duration-300" />
+          <ChevronRight size={36} strokeWidth={1} className="transform group-hover:translate-x-2 transition-transform duration-500" />
         </button>
 
         {/* 3D Coverflow Carousel */}
-        <div className="relative w-full h-[50vh] md:h-[60vh] flex items-center justify-center">
+        <div className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center">
           {featuredPerfumes.map((perfume, index) => {
             const position = getPosition(index);
             
@@ -158,18 +158,18 @@ const Collections: React.FC = () => {
                 initial={false}
                 animate={position}
                 variants={bottleVariants}
-                className="absolute w-[260px] md:w-[340px] cursor-pointer"
+                className="absolute w-[280px] md:w-[400px] cursor-pointer flex justify-center items-center"
                 onClick={() => {
                   if (position === 'left') handlePrev();
                   if (position === 'right') handleNext();
                   if (position === 'center') navigate(`/product/${perfume.id}`);
                 }}
               >
-                <div className="relative w-full h-full flex items-center justify-center transform transition-transform duration-700 hover:scale-[1.02]">
+                <div className="relative w-full flex items-center justify-center transform transition-transform duration-1000 hover:scale-[1.03]">
                   <img 
                     src={perfume.image} 
                     alt={perfume.name} 
-                    className="w-full h-auto max-h-[50vh] md:max-h-[60vh] object-contain drop-shadow-[0_15px_35px_rgba(0,0,0,0.12)]"
+                    className="w-full h-auto max-h-[55vh] md:max-h-[65vh] object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.4)]"
                     style={{
                       WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
                       maskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)'
@@ -185,7 +185,7 @@ const Collections: React.FC = () => {
         </div>
 
         {/* Product Details (Animated crossfade) */}
-        <div className="h-[20vh] w-full mt-8 flex flex-col items-center justify-center">
+        <div className="h-[20vh] w-full flex flex-col items-center justify-start mt-2 md:mt-4">
           <AnimatePresence mode="wait">
             <motion.div
               key={activePerfume.id}
@@ -195,26 +195,24 @@ const Collections: React.FC = () => {
               variants={textVariants}
               className="text-center flex flex-col items-center w-full"
             >
-              <h3 className="serif text-4xl md:text-5xl text-[var(--text-main)] mb-4 tracking-wide font-light">
+              <h3 className="serif text-5xl md:text-7xl text-[#F5F5F5] mb-4 tracking-wider font-light leading-none">
                 {activePerfume.name}
               </h3>
               
-              <div className="flex items-center gap-4 mb-8">
-                <div className="h-[1px] w-8 md:w-12 bg-gray-300"></div>
-                <p className="text-[10px] md:text-xs tracking-[0.25em] uppercase text-gray-500 font-medium">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="h-[1px] w-6 md:w-10 bg-white/20"></div>
+                <p className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-[#A3A3A3] font-light">
                   {activePerfume.notes}
                 </p>
-                <div className="h-[1px] w-8 md:w-12 bg-gray-300"></div>
+                <div className="h-[1px] w-6 md:w-10 bg-white/20"></div>
               </div>
 
               <button 
                 onClick={() => navigate(`/product/${activePerfume.id}`)}
-                className="group relative px-10 py-4 text-[10px] md:text-[11px] uppercase tracking-[0.3em] bg-transparent border border-gray-300 text-gray-800 hover:border-black transition-colors duration-500 overflow-hidden"
+                className="group flex items-center gap-4 text-[10px] md:text-[11px] tracking-[0.3em] uppercase text-[#E5E5E5] hover:text-[var(--gold)] transition-colors pb-3 border-b border-[#E5E5E5]/30 hover:border-[var(--gold)]"
               >
-                <span className="relative z-10 group-hover:text-white transition-colors duration-500">
-                  Discover {activePerfume.name.split(' ')[0]}
-                </span>
-                <div className="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+                DISCOVER THE SCENT
+                <ArrowRight size={14} className="transform group-hover:translate-x-3 transition-transform duration-500 font-light" strokeWidth={1.5} />
               </button>
             </motion.div>
           </AnimatePresence>
