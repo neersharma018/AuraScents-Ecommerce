@@ -12,14 +12,14 @@ const Ingredients: React.FC = () => {
   ];
 
   return (
-    <section className="py-32 relative bg-white" id="ingredients">
+    <section className="pt-12 pb-24 relative bg-white" id="ingredients">
       <div className="container mx-auto px-6 lg:px-12">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          className="text-center mb-12"
         >
           <div className="eyebrow justify-center mb-6">Sourced Globally</div>
           <h2 className="section-title serif text-[var(--text-main)]">
