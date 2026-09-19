@@ -40,7 +40,7 @@ const ShopSection: React.FC = () => {
   };
 
   return (
-    <section id="fragrances" className="py-32 relative bg-[var(--bg-ivory)]">
+    <section id="fragrances" className="py-20 relative bg-[var(--bg-ivory)]">
       <div className="container mx-auto px-6 lg:px-12">
         
         <motion.div 
@@ -48,14 +48,14 @@ const ShopSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20 max-w-2xl mx-auto"
+          className="text-center mb-12 max-w-2xl mx-auto"
         >
           <div className="eyebrow justify-center mb-6">Our Collection</div>
           <h2 className="section-title serif text-[var(--text-main)]">
             All <span className="text-gold-italic">Fragrances</span>
           </h2>
-          <div className="w-px h-16 bg-[var(--gold)] mx-auto mt-10"></div>
-          <p className="max-w-xl mx-auto mt-10 text-[var(--text-muted)] text-sm tracking-wide">
+          <div className="w-px h-16 bg-[var(--gold)] mx-auto mt-6"></div>
+          <p className="max-w-xl mx-auto mt-6 text-[var(--text-muted)] text-sm tracking-wide">
             Explore our complete range of signature scents, from warm ambers to fresh florals. Every bottle is a masterpiece.
           </p>
         </motion.div>
