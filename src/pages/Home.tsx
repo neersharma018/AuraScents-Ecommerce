@@ -22,8 +22,8 @@ const Home: React.FC = () => {
       
       <main>
         <Hero />
-        <ShopSection />
         <Collections />
+        <ShopSection />
         <FeaturedBottle />
         <BestSellers />
         <Ingredients />
