@@ -92,36 +92,7 @@ const Hero: React.FC = () => {
             </motion.div>
           </div>
           
-          {/* Right Stepper */}
-          <div className="hidden lg:flex flex-col gap-12 mt-20 lg:mt-0 text-[var(--bg-ivory)]">
-            {[
-              { num: '01', title: 'Top Notes', val: 'Bergamot' },
-              { num: '02', title: 'Heart Notes', val: 'Jasmine' },
-              { num: '03', title: 'Base Notes', val: 'Sandalwood' }
-            ].map((step, idx, arr) => (
-              <motion.div 
-                key={step.num}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 + (idx * 0.2) }}
-                className="relative flex items-center gap-6"
-              >
-                <div className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-[10px] font-light">
-                  {step.num}
-                </div>
-                
-                {/* Vertical connecting line */}
-                {idx !== arr.length - 1 && (
-                  <div className="absolute left-[17.5px] top-9 w-[1px] h-12 bg-white/10"></div>
-                )}
-                
-                <div>
-                  <div className="text-[9px] text-[#A3A3A3] tracking-[0.15em] mb-1">{step.title}</div>
-                  <div className="serif text-[15px] tracking-wide text-[#E5E5E5]">{step.val}</div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+
           
         </div>
       </div>
