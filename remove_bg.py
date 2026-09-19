@@ -1,11 +1,14 @@
 import os
-from rembg import remove
+from rembg import remove, new_session
 from PIL import Image
 
 input_dir = "public/assets/perfumes"
 output_dir = "public/assets/perfumes/transparent"
 
 os.makedirs(output_dir, exist_ok=True)
+
+print("Loading isnet-general-use model...")
+session = new_session("isnet-general-use")
 
 for file in os.listdir(input_dir):
     if file.endswith(".jpg"):
@@ -18,7 +21,7 @@ for file in os.listdir(input_dir):
             with open(input_path, 'rb') as i:
                 with open(output_path, 'wb') as o:
                     input_bytes = i.read()
-                    output_bytes = remove(input_bytes)
+                    output_bytes = remove(input_bytes, session=session, alpha_matting=True)
                     o.write(output_bytes)
             print(f"Saved {output_filename}")
         except Exception as e:
