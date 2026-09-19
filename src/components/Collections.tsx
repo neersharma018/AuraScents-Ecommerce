@@ -9,10 +9,10 @@ const collectionsData = [
     name: 'The Signature Edit',
     theme: 'Elegant, timeless, sophisticated fragrances.',
     perfumes: [
-      { key: 'velvet-oud', name: 'Velvet Oud', image: '/assets/perfumes/velvet-oud.jpg' },
-      { key: 'rose-nocturne', name: 'Rose Nocturne', image: '/assets/perfumes/rose-nocturne.jpg' },
-      { key: 'santal-elan', name: 'Santal Élan', image: '/assets/perfumes/santal-elan.jpg' },
-      { key: 'golden-haze', name: 'Golden Haze', image: '/assets/perfumes/golden-haze-fix.jpg' },
+      { key: 'velvet-oud', name: 'Velvet Oud', image: '/assets/perfumes/transparent/velvet-oud.png' },
+      { key: 'rose-nocturne', name: 'Rose Nocturne', image: '/assets/perfumes/transparent/rose-nocturne.png' },
+      { key: 'santal-elan', name: 'Santal Élan', image: '/assets/perfumes/transparent/santal-elan.png' },
+      { key: 'golden-haze', name: 'Golden Haze', image: '/assets/perfumes/transparent/golden-haze-fix.png' },
     ]
   },
   {
@@ -20,10 +20,10 @@ const collectionsData = [
     name: 'After Dark',
     theme: 'Deep, mysterious, sensual evening fragrances.',
     perfumes: [
-      { key: 'noir-amber', name: 'Noir Amber', image: '/assets/perfumes/noir-amber.jpg' },
-      { key: 'blaze', name: 'Blaze', image: '/assets/perfumes/blaze.jpg' },
-      { key: 'midnight-bloom', name: 'Midnight Bloom', image: '/assets/perfumes/midnight-bloom.jpg' },
-      { key: 'amber-solace', name: 'Amber Solace', image: '/assets/perfumes/amber-solace.jpg' },
+      { key: 'noir-amber', name: 'Noir Amber', image: '/assets/perfumes/transparent/noir-amber.png' },
+      { key: 'blaze', name: 'Blaze', image: '/assets/perfumes/transparent/blaze.png' },
+      { key: 'midnight-bloom', name: 'Midnight Bloom', image: '/assets/perfumes/transparent/midnight-bloom.png' },
+      { key: 'amber-solace', name: 'Amber Solace', image: '/assets/perfumes/transparent/amber-solace.png' },
     ]
   },
   {
@@ -31,10 +31,10 @@ const collectionsData = [
     name: 'Fresh Chapter',
     theme: 'Fresh, clean, energetic daytime fragrances.',
     perfumes: [
-      { key: 'azure-mist', name: 'Azure Mist', image: '/assets/perfumes/azure-mist.jpg' },
-      { key: 'citrus-veil', name: 'Citrus Veil', image: '/assets/perfumes/citrus-veil.jpg' },
-      { key: 'moonlit-sage', name: 'Moonlit Sage', image: '/assets/perfumes/moonlit-sage-fix.jpg' },
-      { key: 'forest-whisper', name: 'Forest Whisper', image: '/assets/perfumes/forest-whisper.jpg' },
+      { key: 'azure-mist', name: 'Azure Mist', image: '/assets/perfumes/transparent/azure-mist.png' },
+      { key: 'citrus-veil', name: 'Citrus Veil', image: '/assets/perfumes/transparent/citrus-veil.png' },
+      { key: 'moonlit-sage', name: 'Moonlit Sage', image: '/assets/perfumes/transparent/moonlit-sage-fix.png' },
+      { key: 'forest-whisper', name: 'Forest Whisper', image: '/assets/perfumes/transparent/forest-whisper.png' },
     ]
   }
 ];
@@ -150,13 +150,22 @@ const Collections: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-screen bg-[#FDFBF7] overflow-hidden flex flex-col py-16" id="collections">
+    <section className="relative min-h-[90vh] bg-[#FDFBF7] overflow-hidden flex flex-col pt-24 pb-16" id="collections">
       
+      {/* Background subtle mandala or gradient (Simulating the Aevolk aesthetic) */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
+        <div className="w-[800px] h-[800px] rounded-full border border-black animate-[spin_60s_linear_infinite] border-dashed"></div>
+        <div className="absolute w-[600px] h-[600px] rounded-full border border-black animate-[spin_40s_linear_infinite_reverse]"></div>
+      </div>
+
       {/* Top Header */}
-      <div className="container mx-auto px-6 text-center z-20 mt-10">
-        <h2 className="text-[10px] tracking-[0.4em] uppercase text-gray-400 mb-6">
-          The AuraScents Collections
+      <div className="container mx-auto px-6 text-center z-20 mb-10">
+        <h2 className="serif text-5xl md:text-7xl text-[var(--text-main)] font-light tracking-tight mb-8">
+          A wardrobe of <span className="italic">memory.</span>
         </h2>
+        <div className="text-[10px] tracking-[0.4em] uppercase text-gray-400 mb-6">
+          The AuraScents Collections
+        </div>
         <div className="w-px h-10 bg-gray-300 mx-auto"></div>
       </div>
 
@@ -166,7 +175,7 @@ const Collections: React.FC = () => {
         {/* Navigation Controls - Hidden on very small screens, shown on md+ */}
         <button 
           onClick={handlePrev}
-          className="absolute left-2 md:left-12 top-[40%] md:top-1/2 -translate-y-1/2 z-50 w-10 h-10 md:w-14 md:h-14 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[var(--gold)] hover:border-[var(--gold)] transition-all duration-300 bg-white/50 backdrop-blur-sm"
+          className="absolute left-2 md:left-12 top-[40%] md:top-1/2 -translate-y-1/2 z-50 w-10 h-10 md:w-14 md:h-14 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[var(--gold)] hover:border-[var(--gold)] transition-all duration-300 bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md"
           aria-label="Previous Collection"
         >
           <ChevronLeft size={20} strokeWidth={1} />
@@ -174,7 +183,7 @@ const Collections: React.FC = () => {
 
         <button 
           onClick={handleNext}
-          className="absolute right-2 md:right-12 top-[40%] md:top-1/2 -translate-y-1/2 z-50 w-10 h-10 md:w-14 md:h-14 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[var(--gold)] hover:border-[var(--gold)] transition-all duration-300 bg-white/50 backdrop-blur-sm"
+          className="absolute right-2 md:right-12 top-[40%] md:top-1/2 -translate-y-1/2 z-50 w-10 h-10 md:w-14 md:h-14 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[var(--gold)] hover:border-[var(--gold)] transition-all duration-300 bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md"
           aria-label="Next Collection"
         >
           <ChevronRight size={20} strokeWidth={1} />
@@ -211,11 +220,11 @@ const Collections: React.FC = () => {
                       onClick={() => navigate(`/product/${p.key}`)}
                     >
                       {/* Using a wrapper for scale-hover without interfering with framer-motion variants */}
-                      <div className="w-full h-full transform transition-transform duration-700 hover:scale-105">
+                      <div className="w-full h-full transform transition-transform duration-700 hover:scale-105 hover:-translate-y-4 relative">
                         <img 
                           src={p.image} 
                           alt={p.name} 
-                          className="w-full h-auto object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.12)]"
+                          className="w-full h-auto object-contain filter drop-shadow-[0_25px_35px_rgba(0,0,0,0.25)] relative z-10"
                         />
                       </div>
                     </motion.div>
