@@ -15,9 +15,8 @@ const hardcodedProducts = [
   { key: 'forest-whisper', name: 'Forest Whisper', notes: 'GREEN • WOODY • EARTHY', price: 370, image: '/assets/perfumes/forest-whisper.jpg' },
   { key: 'midnight-bloom', name: 'Midnight Bloom', notes: 'FLORAL • MUSKY • SENSUAL', price: 460, image: '/assets/perfumes/midnight-bloom.jpg' },
   { key: 'blaze', name: 'Blaze', notes: 'SPICY • WOODY • BOLD', price: 440, image: '/assets/perfumes/blaze.jpg' },
-  { key: 'moonlit-sage', name: 'Moonlit Sage', notes: 'HERBAL • AROMATIC • CALM', price: 340, image: '/assets/perfumes/moonlit-sage.jpg' },
-  { key: 'golden-haze', name: 'Golden Haze', notes: 'FLORAL • AMBER • RICH', price: 430, image: '/assets/perfumes/golden-haze.jpg' },
-  { key: 'crimson-touch', name: 'Crimson Touch', notes: 'FRUITY • FLORAL • SENSUAL', price: 360, image: '/assets/perfumes/crimson-touch.jpg' },
+  { key: 'moonlit-sage', name: 'Moonlit Sage', notes: 'HERBAL • AROMATIC • CALM', price: 340, image: '/assets/perfumes/moonlit-sage-fix.jpg' },
+  { key: 'golden-haze', name: 'Golden Haze', notes: 'FLORAL • AMBER • RICH', price: 430, image: '/assets/perfumes/golden-haze-fix.jpg' },
 ];
 
 const ShopSection: React.FC = () => {
@@ -33,6 +32,17 @@ const ShopSection: React.FC = () => {
   return (
     <section id="fragrances" className="pt-0 pb-20 relative bg-[var(--bg-ivory)]">
       <div className="container mx-auto px-6 lg:px-12">
+        <motion.div 
+          initial={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <div className="eyebrow justify-center mb-4 text-gray-500">Explore the full range</div>
+          <h2 className="section-title serif text-[var(--text-main)]">
+            All <span className="text-gold-italic">Fragrances</span>
+          </h2>
+        </motion.div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
           {hardcodedProducts.map((p, i) => (
             <motion.article 
