@@ -7,9 +7,6 @@ const featuredPerfumes = [
     id: 'velvet-oud',
     name: 'VELVET OUD',
     subtitle: 'AN EMPIRE OF SCENT',
-    topNotes: 'Bergamot, Sicilian Lemon',
-    heartNotes: 'Jasmine, Bulgarian Rose, Lavender',
-    baseNotes: 'Oud Wood, Sandalwood, Amber',
     image: '/assets/perfumes/transparent/velvet-oud.png',
     category: 'OUD & SPICE',
     price: '₹1500'
@@ -18,9 +15,6 @@ const featuredPerfumes = [
     id: 'rose-nocturne',
     name: 'ROSE NOCTURNE',
     subtitle: 'ELEGANCE IN BLOOM',
-    topNotes: 'Pink Pepper, Bergamot',
-    heartNotes: 'Turkish Rose, Violet',
-    baseNotes: 'Vanilla, White Musk',
     image: '/assets/perfumes/transparent/rose-nocturne.png',
     category: 'FLORAL & POWDERY',
     price: '₹1200'
@@ -29,9 +23,6 @@ const featuredPerfumes = [
     id: 'santal-elan',
     name: 'SANTAL ÉLAN',
     subtitle: 'THE MODERN CLASSIC',
-    topNotes: 'Cardamom, Iris',
-    heartNotes: 'Sandalwood, Violet',
-    baseNotes: 'Leather, Amber',
     image: '/assets/perfumes/transparent/santal-elan.png',
     category: 'SMOKE & VETIVER',
     price: '₹1400'
@@ -84,28 +75,28 @@ const Collections: React.FC = () => {
     center: {
       left: '50%',
       x: '-50%',
-      scale: 1,
+      scale: 1.1,
       opacity: 1,
       zIndex: 30,
-      filter: 'brightness(1) drop-shadow(0 20px 30px rgba(0,0,0,0.8))',
+      filter: 'brightness(1) drop-shadow(0 30px 40px rgba(0,0,0,0.9))',
       transition: { duration: 0.9, ease: cinematicEase }
     },
     left: {
-      left: '15%',
+      left: '20%',
       x: '-50%',
-      scale: 0.7,
-      opacity: 0.6,
+      scale: 0.75,
+      opacity: 0.8,
       zIndex: 10,
-      filter: 'brightness(0.5) drop-shadow(0 10px 15px rgba(0,0,0,0.5))',
+      filter: 'brightness(0.7) drop-shadow(0 15px 25px rgba(0,0,0,0.6))',
       transition: { duration: 0.9, ease: cinematicEase }
     },
     right: {
-      left: '85%',
+      left: '80%',
       x: '-50%',
-      scale: 0.7,
-      opacity: 0.6,
+      scale: 0.75,
+      opacity: 0.8,
       zIndex: 10,
-      filter: 'brightness(0.5) drop-shadow(0 10px 15px rgba(0,0,0,0.5))',
+      filter: 'brightness(0.7) drop-shadow(0 15px 25px rgba(0,0,0,0.6))',
       transition: { duration: 0.9, ease: cinematicEase }
     }
   };
@@ -132,6 +123,7 @@ const Collections: React.FC = () => {
       <div className="absolute top-0 left-0 w-[60vw] h-[60vh] bg-[radial-gradient(ellipse_at_top_left,rgba(180,120,80,0.15),transparent_70%)] pointer-events-none mix-blend-screen"></div>
       {/* Center spotlight behind bottle */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vw] rounded-full bg-[radial-gradient(circle,rgba(212,198,179,0.08)_0%,transparent_60%)] pointer-events-none blur-3xl mix-blend-screen"></div>
+      
       {/* Dark vignette at bottom */}
       <div className="absolute bottom-0 inset-x-0 h-[40vh] bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none"></div>
 
@@ -159,25 +151,13 @@ const Collections: React.FC = () => {
                   src={perfume.image} 
                   alt={perfume.name} 
                   className="h-full w-auto object-contain"
-                  style={{
-                    WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
-                    maskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)'
-                  }}
                 />
-                
-                {/* Static Text for Side Bottles */}
-                {position !== 'center' && (
-                  <div className="absolute -bottom-16 inset-x-0 flex flex-col items-center justify-end text-center opacity-80 pointer-events-none">
-                    <h3 className="serif text-xl md:text-2xl tracking-widest text-[#f5f0eb] uppercase whitespace-nowrap">{perfume.name}</h3>
-                    <p className="text-[8px] md:text-[9px] tracking-[0.3em] uppercase text-[#a89582] mt-2 whitespace-nowrap">{perfume.category}</p>
-                  </div>
-                )}
               </motion.div>
             );
           })}
         </div>
 
-        {/* CENTER OVERLAY: Glassmorphism Info Panel */}
+        {/* CENTER OVERLAY: Minimal Text Panel */}
         <AnimatePresence>
           <motion.div 
             key={`overlay-${activePerfume.id}`}
@@ -187,51 +167,16 @@ const Collections: React.FC = () => {
             variants={textOverlayVariants}
             className="absolute inset-0 pointer-events-none"
           >
-            {/* TOP RIGHT PANEL */}
-            <div className="absolute top-[20%] right-[8%] md:right-[12%] flex flex-col items-end pointer-events-auto">
-              <div className="text-right mb-6 drop-shadow-2xl">
-                <h2 className="serif text-4xl md:text-6xl tracking-widest text-[#f5f0eb] uppercase">{activePerfume.name}</h2>
-                <h3 className="text-xs md:text-sm tracking-[0.3em] uppercase text-[#a89582] mt-2">{activePerfume.subtitle}</h3>
-              </div>
-
-              <div className="w-[300px] md:w-[360px] rounded-2xl border border-white/10 bg-[#2a1a11]/30 backdrop-blur-md p-6 shadow-[0_30px_60px_rgba(0,0,0,0.5)] flex flex-col gap-6">
-                {/* Top Notes */}
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 mt-1 w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-xs font-mono text-white/60">01</div>
-                  <div>
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-[#a89582] mb-1">Top Notes</p>
-                    <p className="text-[#f5f0eb] text-sm font-light leading-relaxed">{activePerfume.topNotes}</p>
-                  </div>
-                </div>
-                {/* Heart Notes */}
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 mt-1 w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-xs font-mono text-white/60">02</div>
-                  <div>
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-[#a89582] mb-1">Heart Notes</p>
-                    <p className="text-[#f5f0eb] text-sm font-light leading-relaxed">{activePerfume.heartNotes}</p>
-                  </div>
-                </div>
-                {/* Base Notes */}
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 mt-1 w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-xs font-mono text-white/60">03</div>
-                  <div>
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-[#a89582] mb-1">Base Notes</p>
-                    <p className="text-[#f5f0eb] text-sm font-light leading-relaxed">{activePerfume.baseNotes}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             {/* BOTTOM LEFT: Product Action */}
-            <div className="absolute bottom-[10%] left-[8%] md:left-[10%] flex flex-col items-start pointer-events-auto">
+            <div className="absolute bottom-[8%] left-[8%] md:left-[10%] flex flex-col items-start pointer-events-auto">
               <div className="flex items-end gap-6 mb-2">
-                <h1 className="serif text-4xl md:text-5xl tracking-widest text-[#f5f0eb] uppercase drop-shadow-xl">{activePerfume.name}</h1>
+                <h1 className="serif text-4xl md:text-6xl tracking-widest text-[#f5f0eb] uppercase drop-shadow-xl">{activePerfume.name}</h1>
                 <button className="text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-[#d4c6b3] hover:text-white border-b border-[#d4c6b3]/50 hover:border-white pb-1 transition-all mb-2 drop-shadow-md">
                   ADD TO CART
                 </button>
               </div>
-              <p className="text-xs md:text-sm tracking-[0.2em] text-white/70 font-light mb-8 drop-shadow-md">
-                EAU DE PARFUM | 100ml | {activePerfume.price}
+              <p className="text-xs md:text-sm tracking-[0.3em] text-white/70 font-light mb-8 drop-shadow-md uppercase">
+                {activePerfume.category} | 100ml | {activePerfume.price}
               </p>
               <button 
                 onClick={() => navigate(`/product/${activePerfume.id}`)}
@@ -242,7 +187,7 @@ const Collections: React.FC = () => {
             </div>
 
             {/* BOTTOM RIGHT: Navigation Controls */}
-            <div className="absolute bottom-[10%] right-[8%] md:right-[12%] flex items-center gap-6 pointer-events-auto">
+            <div className="absolute bottom-[8%] right-[8%] md:right-[12%] flex items-center gap-6 pointer-events-auto">
               <button 
                 onClick={handlePrev} 
                 className="text-[10px] md:text-[11px] tracking-[0.2em] uppercase text-[#a89582] hover:text-white transition-colors flex items-center gap-2 drop-shadow-md"
