@@ -169,10 +169,10 @@ h1, h2, h3, h4, .serif {
 }
 .navbar.scrolled {
   padding: 16px 0;
-  background: rgba(248, 246, 242, 0.85);
+  background: rgba(17, 10, 8, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border-dark);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .nav-link {

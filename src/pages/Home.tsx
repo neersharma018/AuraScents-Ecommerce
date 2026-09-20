@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import Hero from '../components/Hero';
 import ShopSection from '../components/ShopSection';
 import Collections from '../components/Collections';
+import CollectionProductGrid from '../components/CollectionProductGrid';
 import BestSellers from '../components/BestSellers';
 import Ingredients from '../components/Ingredients';
 import About from '../components/About';
@@ -23,6 +24,7 @@ const Home: React.FC = () => {
       <main>
         <Hero />
         <Collections />
+        <CollectionProductGrid />
         <ShopSection />
         <FeaturedBottle />
         <BestSellers />

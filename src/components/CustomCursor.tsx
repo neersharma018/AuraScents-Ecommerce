@@ -4,8 +4,20 @@ import { motion } from 'framer-motion';
 const CustomCursor: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [isFinePointer, setIsFinePointer] = useState(false);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia('(pointer: fine)');
+    setIsFinePointer(mediaQuery.matches);
+
+    const handler = (e: MediaQueryListEvent) => setIsFinePointer(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
+
+  useEffect(() => {
+    if (!isFinePointer) return;
+
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -33,7 +45,9 @@ const CustomCursor: React.FC = () => {
       window.removeEventListener('mousemove', updateMousePosition);
       window.removeEventListener('mouseover', handleMouseOver);
     };
-  }, []);
+  }, [isFinePointer]);
+
+  if (!isFinePointer) return null;
 
   return (
     <>

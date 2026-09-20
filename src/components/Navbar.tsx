@@ -72,7 +72,7 @@ const Navbar: React.FC = () => {
           
           {/* Left: Nav Links */}
           <div className="flex-1 flex justify-start items-center">
-            <button className={`icon-btn lg:hidden mr-4 ${location.pathname === '/' && !scrolled ? 'text-white border-white/30' : ''}`} onClick={() => setMobileMenuOpen(true)}>
+            <button className={`icon-btn lg:hidden mr-4 text-white/70 border-white/30 hover:text-white hover:border-white`} onClick={() => setMobileMenuOpen(true)}>
               <Menu size={18} />
             </button>
             <div className="hidden lg:flex items-center gap-8">
@@ -81,7 +81,7 @@ const Navbar: React.FC = () => {
                   key={link.name} 
                   href={link.href} 
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`text-[9px] uppercase tracking-[0.25em] transition-colors ${location.pathname === '/' && !scrolled ? 'text-white/70 hover:text-white' : 'text-[var(--text-muted)] hover:text-black'}`}
+                  className={`text-[9px] uppercase tracking-[0.25em] transition-colors text-white/70 hover:text-white`}
                 >
                   {link.name}
                 </a>
@@ -92,7 +92,7 @@ const Navbar: React.FC = () => {
           {/* Center: Logo */}
           <div className="flex-1 flex justify-center">
             <Link to="/" className="flex items-center">
-              <span className={`serif text-3xl tracking-widest font-light transition-colors ${location.pathname === '/' && !scrolled ? 'text-white' : 'text-[var(--text-main)]'}`}>
+              <span className={`serif text-3xl tracking-widest font-light transition-colors text-white`}>
                 Aura<span className="text-[var(--gold)] italic">Scents</span>
               </span>
             </Link>
@@ -100,7 +100,7 @@ const Navbar: React.FC = () => {
           
           {/* Right: Actions */}
           <div className="flex-1 flex justify-end items-center gap-6">
-            <button className={`hidden md:block text-[9px] uppercase tracking-[0.25em] transition-colors ${location.pathname === '/' && !scrolled ? 'text-white/70 hover:text-white' : 'text-[var(--text-muted)] hover:text-black'}`} aria-label="Search">
+            <button className={`hidden md:block text-[9px] uppercase tracking-[0.25em] transition-colors text-white/70 hover:text-white`} aria-label="Search">
               SEARCH
             </button>
             
@@ -111,20 +111,20 @@ const Navbar: React.FC = () => {
                     Admin
                   </Link>
                 )}
-                <span className={`text-[9px] uppercase tracking-[0.25em] transition-colors truncate max-w-[100px] ${location.pathname === '/' && !scrolled ? 'text-white/70' : 'text-[var(--text-muted)]'}`}>
+                <span className={`text-[9px] uppercase tracking-[0.25em] transition-colors truncate max-w-[100px] text-white/70`}>
                   {user.email?.split('@')[0]}
                 </span>
-                <button className={`text-[9px] uppercase tracking-[0.25em] transition-colors ${location.pathname === '/' && !scrolled ? 'text-white/70 hover:text-white' : 'text-[var(--text-muted)] hover:text-black'}`} onClick={() => signOut()}>
+                <button className={`text-[9px] uppercase tracking-[0.25em] transition-colors text-white/70 hover:text-white`} onClick={() => signOut()}>
                   LOGOUT
                 </button>
               </div>
             ) : (
-              <button className={`hidden md:block text-[9px] uppercase tracking-[0.25em] transition-colors ${location.pathname === '/' && !scrolled ? 'text-white/70 hover:text-white' : 'text-[var(--text-muted)] hover:text-black'}`} onClick={() => setAuthModalOpen(true)}>
+              <button className={`hidden md:block text-[9px] uppercase tracking-[0.25em] transition-colors text-white/70 hover:text-white`} onClick={() => setAuthModalOpen(true)}>
                 ACCOUNT
               </button>
             )}
             
-            <Link to="/cart" className={`text-[9px] uppercase tracking-[0.25em] transition-colors ${location.pathname === '/' && !scrolled ? 'text-white/70 hover:text-white' : 'text-[var(--text-muted)] hover:text-black'}`}>
+            <Link to="/cart" className={`text-[9px] uppercase tracking-[0.25em] transition-colors text-white/70 hover:text-white`}>
               CART ({cartCount})
             </Link>
           </div>
