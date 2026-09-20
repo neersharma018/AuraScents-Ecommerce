@@ -15,7 +15,7 @@ const featuredPerfumes = [
     id: 'rose-nocturne',
     name: 'ROSE NOCTURNE',
     subtitle: 'ELEGANCE IN BLOOM',
-    image: '/assets/perfumes/transparent/rose-nocturne.png',
+    image: '/assets/perfumes/transparent/ai_purple.png', // Using AI purple to avoid the cut in the original png
     category: 'FLORAL & POWDERY',
     price: '₹1200'
   },
@@ -75,28 +75,31 @@ const Collections: React.FC = () => {
     center: {
       left: '50%',
       x: '-50%',
-      scale: 1.1,
+      y: '-40%',
+      scale: 1,
       opacity: 1,
       zIndex: 30,
-      filter: 'brightness(1) drop-shadow(0 30px 40px rgba(0,0,0,0.9))',
+      filter: 'brightness(1) drop-shadow(0 40px 50px rgba(0,0,0,0.9))',
       transition: { duration: 0.9, ease: cinematicEase }
     },
     left: {
       left: '20%',
       x: '-50%',
-      scale: 0.75,
-      opacity: 0.8,
+      y: '-20%',
+      scale: 0.65,
+      opacity: 0.85,
       zIndex: 10,
-      filter: 'brightness(0.7) drop-shadow(0 15px 25px rgba(0,0,0,0.6))',
+      filter: 'brightness(0.7) drop-shadow(0 20px 30px rgba(0,0,0,0.7))',
       transition: { duration: 0.9, ease: cinematicEase }
     },
     right: {
       left: '80%',
       x: '-50%',
-      scale: 0.75,
-      opacity: 0.8,
+      y: '-20%',
+      scale: 0.65,
+      opacity: 0.85,
       zIndex: 10,
-      filter: 'brightness(0.7) drop-shadow(0 15px 25px rgba(0,0,0,0.6))',
+      filter: 'brightness(0.7) drop-shadow(0 20px 30px rgba(0,0,0,0.7))',
       transition: { duration: 0.9, ease: cinematicEase }
     }
   };
@@ -114,22 +117,24 @@ const Collections: React.FC = () => {
       id="collections" 
       className="relative w-full h-screen overflow-hidden bg-[#110a08]"
     >
-      {/* SINGLE UNIFIED CINEMATIC BACKGROUND */}
-      {/* Base gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#2a1a11] via-[#110a08] to-black"></div>
+      {/* FULL-SCREEN GENERATED BACKGROUND */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url('/assets/pedestals_bg.jpg')` }}
+      ></div>
       
-      {/* Studio Lighting Highlights */}
-      {/* Top Left warm light */}
-      <div className="absolute top-0 left-0 w-[60vw] h-[60vh] bg-[radial-gradient(ellipse_at_top_left,rgba(180,120,80,0.15),transparent_70%)] pointer-events-none mix-blend-screen"></div>
-      {/* Center spotlight behind bottle */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vw] rounded-full bg-[radial-gradient(circle,rgba(212,198,179,0.08)_0%,transparent_60%)] pointer-events-none blur-3xl mix-blend-screen"></div>
-      
-      {/* Dark vignette at bottom */}
-      <div className="absolute bottom-0 inset-x-0 h-[40vh] bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none"></div>
+      {/* Dark vignette to ensure text remains readable */}
+      <div className="absolute inset-0 shadow-[inset_0_0_200px_rgba(0,0,0,0.9)] pointer-events-none"></div>
+      <div className="absolute bottom-0 inset-x-0 h-[50vh] bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none"></div>
 
       {/* Main Content Area */}
       <div className="w-full h-full relative z-10 max-w-[1800px] mx-auto">
         
+        {/* Collections Heading */}
+        <div className="absolute top-12 left-12 z-40 pointer-events-none">
+          <h2 className="text-[10px] tracking-[0.4em] uppercase text-[#d4c6b3]/70 font-light">COLLECTIONS</h2>
+        </div>
+
         {/* Bottles Layer */}
         <div className="absolute inset-0 flex items-center justify-center">
           {featuredPerfumes.map((perfume, index) => {
@@ -141,7 +146,7 @@ const Collections: React.FC = () => {
                 initial={false}
                 animate={position}
                 variants={bottleVariants as any}
-                className="absolute h-[65vh] md:h-[75vh] cursor-pointer flex justify-center items-center"
+                className="absolute top-[60%] h-[55vh] md:h-[65vh] cursor-pointer flex justify-center items-center origin-bottom"
                 onClick={() => {
                   if (position === 'left') handlePrev();
                   if (position === 'right') handleNext();
@@ -169,18 +174,18 @@ const Collections: React.FC = () => {
           >
             {/* BOTTOM LEFT: Product Action */}
             <div className="absolute bottom-[8%] left-[8%] md:left-[10%] flex flex-col items-start pointer-events-auto">
-              <div className="flex items-end gap-6 mb-2">
-                <h1 className="serif text-4xl md:text-6xl tracking-widest text-[#f5f0eb] uppercase drop-shadow-xl">{activePerfume.name}</h1>
-                <button className="text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-[#d4c6b3] hover:text-white border-b border-[#d4c6b3]/50 hover:border-white pb-1 transition-all mb-2 drop-shadow-md">
+              <div className="flex items-center gap-8 mb-2">
+                <h1 className="serif text-4xl md:text-6xl tracking-widest text-[#f5f0eb] uppercase drop-shadow-2xl">{activePerfume.name}</h1>
+                <button className="text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-[#d4c6b3] hover:text-[#f5f0eb] border border-[#a89582] hover:border-[#f5f0eb] px-6 py-2 rounded-sm transition-all shadow-lg bg-black/20 backdrop-blur-sm">
                   ADD TO CART
                 </button>
               </div>
-              <p className="text-xs md:text-sm tracking-[0.3em] text-white/70 font-light mb-8 drop-shadow-md uppercase">
-                {activePerfume.category} | 100ml | {activePerfume.price}
+              <p className="text-xs md:text-sm tracking-[0.3em] text-[#a89582] font-light mb-8 drop-shadow-md uppercase">
+                {activePerfume.category} | 100ML | {activePerfume.price}
               </p>
               <button 
                 onClick={() => navigate(`/product/${activePerfume.id}`)}
-                className="px-8 py-3 rounded border border-white/30 text-[10px] md:text-xs tracking-[0.25em] uppercase text-white hover:bg-white hover:text-black transition-colors duration-500 backdrop-blur-sm shadow-xl"
+                className="px-8 py-3 rounded border border-white/20 text-[10px] md:text-xs tracking-[0.25em] uppercase text-[#f5f0eb] hover:bg-[#f5f0eb] hover:text-black transition-colors duration-500 backdrop-blur-sm shadow-xl"
               >
                 EXPLORE COLLECTION
               </button>
