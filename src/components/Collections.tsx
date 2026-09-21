@@ -212,7 +212,7 @@ const Collections: React.FC = () => {
       <div className="absolute inset-0 z-0">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/assets/clean_pedestals_bg.jpg')` }}
+          style={{ backgroundImage: `url('/assets/categories background.jpeg')` }}
         ></div>
         {/* Dark vignette to ensure text remains readable */}
         <div className="absolute inset-0 shadow-[inset_0_0_200px_rgba(0,0,0,0.9)] pointer-events-none"></div>
