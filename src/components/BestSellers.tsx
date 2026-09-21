@@ -38,7 +38,7 @@ const BestSellers: React.FC = () => {
   };
 
   return (
-    <section className="py-32 relative bg-white" id="bestsellers">
+    <section className="py-16 relative bg-white" id="bestsellers">
       <div className="container mx-auto px-6 lg:px-12">
         <motion.div 
           initial={{ opacity: 1, y: 0 }}
@@ -111,33 +111,32 @@ const BestSellers: React.FC = () => {
                   </div>
                   
                   {/* Image wrapper */}
-                  <div className="h-full w-full flex items-center justify-center p-8 bg-gradient-to-t from-[rgba(201,162,39,0.05)] to-transparent relative">
+                  <div className="h-full w-full flex items-center justify-center bg-gradient-to-t from-[rgba(201,162,39,0.05)] to-transparent relative">
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-black/5 transition-opacity duration-500 z-10 pointer-events-none"></div>
                     <img 
                       src={p.image} 
                       alt={p.name} 
-                      className="w-full h-full object-contain filter drop-shadow-2xl transition-transform duration-700 ease-out group-hover:scale-105" 
+                      className="w-full h-full object-cover filter drop-shadow-2xl transition-transform duration-700 ease-out group-hover:scale-105" 
                     />
                   </div>
                 </div>
                 
                 <div className="px-2">
                   <div className="flex items-center gap-1 mb-3 text-[var(--gold)] text-xs">
-                    ★★★★★
+                    {['★★★★★', '★★★★☆', '★★★☆☆', '★★★★☆'][i % 4]}
                   </div>
                   <h3 className="serif text-3xl mb-1 text-[var(--text-main)] group-hover:text-[var(--gold)] transition-colors">{p.name}</h3>
                   <div className="text-[10px] tracking-[0.2em] uppercase text-[var(--text-muted)] mb-4">AuraScents</div>
-                  <p className="text-xs mb-5 text-[var(--text-muted)] opacity-80">{p.notes}</p>
                   
                   <div className="flex items-center justify-between pt-4 border-t border-[var(--border-dark)]">
-                    <span className="serif text-2xl text-[var(--text-main)]">${p.price}</span>
+                    <span className="serif text-2xl text-[var(--text-main)]">₹{p.price}</span>
                     <button 
                       disabled={cart.some(item => item.key === p.key)}
                       onClick={(e) => handleAction(e, () => addToCart(p))}
-                      className={`text-[10px] uppercase tracking-widest font-medium border-b pb-1 transition-colors ${
+                      className={`text-[10px] uppercase tracking-widest font-medium px-4 py-2 rounded-sm transition-all duration-300 shadow-sm ${
                         cart.some(item => item.key === p.key) 
-                          ? 'text-[var(--gold)] border-[var(--gold)] cursor-default' 
-                          : 'border-[var(--matte-black)] hover:text-[var(--gold)] hover:border-[var(--gold)]'
+                          ? 'bg-green-700 text-white cursor-default opacity-90' 
+                          : 'bg-[var(--gold)] text-white hover:brightness-110 hover:shadow-md'
                       }`}
                     >
                       {cart.some(item => item.key === p.key) ? 'Added ✓' : 'Add to Cart'}

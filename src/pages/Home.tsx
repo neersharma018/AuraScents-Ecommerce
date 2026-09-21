@@ -23,11 +23,12 @@ const Home: React.FC = () => {
       
       <main>
         <Hero />
+        <BestSellers />
         <Collections />
         <CollectionProductGrid />
         <ShopSection />
         <FeaturedBottle />
-        <BestSellers />
+
         <Ingredients />
         <About />
         <WhyAuraScents />

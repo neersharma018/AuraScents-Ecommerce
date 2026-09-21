@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+
 
 const featuredPerfumes = [
   {
@@ -124,7 +124,7 @@ const Particles: React.FC<{ type: string }> = ({ type }) => {
 const Collections: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
-  const navigate = useNavigate();
+
 
   const handleNext = useCallback(() => {
     if (isAnimating) return;
@@ -165,31 +165,31 @@ const Collections: React.FC = () => {
     center: {
       left: '50%',
       x: '-50%',
-      y: '0%',
+      y: '15%',
       scale: 1,
       opacity: 1,
       zIndex: 30,
-      filter: 'brightness(1)',
+      filter: 'brightness(1.15) contrast(1.05) drop-shadow(0 -15px 35px rgba(255,255,255,0.2))',
       transition: { duration: 0.9, ease: cinematicEase }
     },
     left: {
       left: '20%',
       x: '-50%',
-      y: '5%',
-      scale: 0.65,
-      opacity: 0.85,
+      y: '25%',
+      scale: 0.8,
+      opacity: 0.5,
       zIndex: 10,
-      filter: 'brightness(0.7)',
+      filter: 'brightness(0.4) contrast(0.9)',
       transition: { duration: 0.9, ease: cinematicEase }
     },
     right: {
       left: '80%',
       x: '-50%',
-      y: '5%',
-      scale: 0.65,
-      opacity: 0.85,
+      y: '25%',
+      scale: 0.8,
+      opacity: 0.5,
       zIndex: 10,
-      filter: 'brightness(0.7)',
+      filter: 'brightness(0.4) contrast(0.9)',
       transition: { duration: 0.9, ease: cinematicEase }
     }
   };
@@ -214,9 +214,7 @@ const Collections: React.FC = () => {
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url('/assets/categories background.jpeg')` }}
         ></div>
-        {/* Dark vignette to ensure text remains readable */}
-        <div className="absolute inset-0 shadow-[inset_0_0_200px_rgba(0,0,0,0.9)] pointer-events-none"></div>
-        <div className="absolute bottom-0 inset-x-0 h-[60vh] bg-gradient-to-t from-black via-black/90 to-transparent pointer-events-none"></div>
+        {/* Text readability gradients removed as per user request to keep original image */}
       </div>
 
       {/* PARTICLES */}
@@ -225,10 +223,7 @@ const Collections: React.FC = () => {
       {/* TOP SECTION: 3D Stage (Takes up most of the screen, ensures no overlap with bottom text) */}
       <div className="relative flex-1 z-10 w-full max-w-[1800px] mx-auto pointer-events-none mt-20">
         
-        {/* Collections Heading */}
-        <div className="absolute top-0 left-6 md:left-12 z-40">
-          <h2 className="text-[10px] tracking-[0.4em] uppercase text-[#d4c6b3]/70 font-light">COLLECTIONS</h2>
-        </div>
+        {/* Collections Heading removed */}
 
         {/* Bottles Layer */}
         <div className="absolute inset-0 flex items-end pb-[10vh] justify-center">
@@ -283,43 +278,14 @@ const Collections: React.FC = () => {
             variants={textOverlayVariants}
             className="flex flex-col md:flex-row md:items-end justify-between w-full gap-8"
           >
-            {/* Left: Product Info & Actions */}
+            {/* Left: Product Info & Actions removed */}
             <div className="flex flex-col items-start max-w-2xl">
-              <h1 className="serif text-4xl md:text-6xl lg:text-7xl tracking-widest text-[#f5f0eb] uppercase drop-shadow-2xl mb-2 leading-none">
-                {activePerfume.name}
-              </h1>
-              
-              <p className="text-sm md:text-base tracking-[0.3em] text-[#d4c6b3] font-light mb-8 drop-shadow-md uppercase flex items-center gap-4">
-                <span>{activePerfume.category}</span>
-                <span className="w-1 h-1 rounded-full bg-[var(--gold)]"></span>
-                <span>100ML</span>
-                <span className="w-1 h-1 rounded-full bg-[var(--gold)]"></span>
-                <span className="text-[var(--gold)] font-medium">{activePerfume.price}</span>
-              </p>
-              
-              <div className="flex flex-wrap items-center gap-4">
-                <button 
-                  className="bg-[var(--gold)] text-white text-[10px] md:text-xs font-semibold tracking-[0.2em] uppercase px-8 py-4 rounded-sm hover:bg-white hover:text-black transition-all duration-300 shadow-[0_0_20px_rgba(201,162,39,0.3)] min-h-[44px]"
-                  aria-label={`Add ${activePerfume.name} to cart`}
-                >
-                  ADD TO CART
-                </button>
-                <button 
-                  onClick={() => navigate(`/product/${activePerfume.id}`)}
-                  className="border border-[#a89582] text-[#f5f0eb] text-[10px] md:text-xs tracking-[0.2em] uppercase px-8 py-4 rounded-sm hover:bg-[#a89582] hover:text-white transition-all duration-300 min-h-[44px]"
-                  aria-label={`Explore ${activePerfume.name} collection`}
-                >
-                  EXPLORE COLLECTION
-                </button>
-              </div>
+              {/* Product Info & Actions removed */}
             </div>
 
             {/* Right: Navigation Controls */}
             <div className="flex flex-col items-start md:items-end gap-4 mt-8 md:mt-0">
-              {/* Slide Counter */}
-              <div className="text-[10px] tracking-[0.3em] text-[#a89582] font-light font-mono">
-                0{activeIndex + 1} <span className="mx-2 opacity-50">/</span> 0{featuredPerfumes.length}
-              </div>
+              {/* Slide Counter removed */}
               
               {/* Prev/Next Buttons */}
               <div className="flex items-center gap-2">
