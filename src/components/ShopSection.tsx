@@ -55,7 +55,7 @@ const ShopSection: React.FC = () => {
               className="product-card group cursor-pointer"
               onClick={() => navigate(`/product/${p.key}`)}
             >
-              <div className="relative overflow-hidden mb-6 rounded-2xl bg-black group-hover:shadow-2xl transition-all duration-500" style={{ height: '360px' }}>
+              <div className="relative overflow-hidden mb-6 rounded-2xl bg-[var(--bg-ivory)] group-hover:shadow-2xl transition-all duration-500" style={{ height: '360px' }}>
                 
                 {/* Actions overlay */}
                 <div className="absolute top-4 right-4 z-20 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-4 group-hover:translate-x-0">
@@ -76,34 +76,32 @@ const ShopSection: React.FC = () => {
                 </div>
                 
                 {/* Image wrapper */}
-                <div className="h-full w-full relative">
+                <div className="h-full w-full flex items-center justify-center bg-gradient-to-t from-[rgba(201,162,39,0.05)] to-transparent relative">
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-black/5 transition-opacity duration-500 z-10 pointer-events-none"></div>
                   <img 
                     src={p.image} 
                     alt={p.name} 
-                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" 
+                    className="w-full h-full object-cover filter drop-shadow-2xl transition-transform duration-700 ease-out group-hover:scale-105" 
                   />
-                  {/* Subtle vignette for the cinematic images */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60"></div>
                 </div>
               </div>
               
-              <div className="px-2">
+              <div className="px-2 flex-1 flex flex-col">
                 <div className="flex items-center gap-1 mb-3 text-[var(--gold)] text-xs">
                   ★★★★★
                 </div>
                 <h3 className="serif text-2xl mb-1 text-[var(--text-main)] group-hover:text-[var(--gold)] transition-colors">{p.name}</h3>
                 <div className="text-[10px] tracking-[0.2em] uppercase text-[var(--text-muted)] mb-3">AuraScents</div>
-                <p className="text-xs mb-4 text-[var(--text-muted)] opacity-80">{p.notes}</p>
                 
-                <div className="flex items-center justify-between pt-4 border-t border-[var(--border-dark)]">
+                <div className="mt-auto flex items-center justify-between pt-4 border-t border-[var(--border-dark)]">
                   <span className="serif text-xl text-[var(--text-main)]">${p.price}</span>
                   <button 
                     disabled={cart.some(item => item.key === p.key)}
                     onClick={(e) => handleAction(e, () => addToCart(p as any))}
-                    className={`text-[10px] uppercase tracking-widest font-medium border-b pb-1 transition-colors ${
+                    className={`text-[10px] uppercase tracking-widest font-medium px-4 py-2 rounded-sm transition-all duration-300 shadow-sm ${
                       cart.some(item => item.key === p.key) 
-                        ? 'text-[var(--gold)] border-[var(--gold)] cursor-default' 
-                        : 'border-[var(--matte-black)] hover:text-[var(--gold)] hover:border-[var(--gold)]'
+                        ? 'bg-green-700 text-white cursor-default opacity-90' 
+                        : 'bg-[var(--gold)] text-white hover:brightness-110 hover:shadow-md'
                     }`}
                   >
                     {cart.some(item => item.key === p.key) ? 'Added ✓' : 'Add to Cart'}

@@ -140,7 +140,7 @@ const CollectionProductGrid: React.FC = () => {
                 className="group cursor-pointer flex flex-col"
                 onClick={() => navigate(`/product/${p.key}`)}
               >
-                <div className="relative overflow-hidden mb-6 rounded-sm bg-black group-hover:shadow-2xl transition-all duration-500 h-[380px]">
+                <div className="relative overflow-hidden mb-6 rounded-2xl bg-[var(--bg-ivory)] group-hover:shadow-2xl transition-all duration-500 h-[380px]">
                   {/* Actions overlay */}
                   <div className="absolute top-4 right-4 z-20 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-4 group-hover:translate-x-0">
                     <button 
@@ -160,33 +160,32 @@ const CollectionProductGrid: React.FC = () => {
                   </div>
                   
                   {/* Image wrapper */}
-                  <div className="h-full w-full relative">
+                  <div className="h-full w-full flex items-center justify-center bg-gradient-to-t from-[rgba(201,162,39,0.05)] to-transparent relative">
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-black/5 transition-opacity duration-500 z-10 pointer-events-none"></div>
                     <img 
                       src={p.image} 
                       alt={p.name} 
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100" 
+                      className="w-full h-full object-cover filter drop-shadow-2xl transition-transform duration-700 ease-out group-hover:scale-105" 
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 mix-blend-multiply"></div>
                   </div>
                 </div>
                 
                 <div className="px-2 flex-1 flex flex-col">
                   <h3 className="serif text-2xl mb-1 text-[var(--text-main)] group-hover:text-[var(--gold)] transition-colors">{p.name}</h3>
                   <p className="text-[10px] tracking-[0.2em] text-[var(--text-muted)] mb-4">{p.category}</p>
-                  <p className="text-xs mb-6 text-[var(--text-muted)] leading-relaxed italic">{p.notes}</p>
                   
                   <div className="mt-auto flex items-center justify-between pt-4 border-t border-[var(--border-dark)]">
                     <span className="serif text-xl text-[var(--text-main)] font-light">₹{p.price}</span>
                     <button 
                       disabled={cart.some(item => item.key === p.key)}
                       onClick={(e) => handleAction(e, () => addToCart(p as any))}
-                      className={`text-[9px] uppercase tracking-widest font-semibold border-b pb-1 transition-all duration-300 ${
+                      className={`text-[10px] uppercase tracking-widest font-medium px-4 py-2 rounded-sm transition-all duration-300 shadow-sm ${
                         cart.some(item => item.key === p.key) 
-                          ? 'text-[var(--gold)] border-[var(--gold)] cursor-default' 
-                          : 'text-[var(--text-main)] border-[var(--border-dark)] hover:text-[var(--gold)] hover:border-[var(--gold)]'
+                          ? 'bg-green-700 text-white cursor-default opacity-90' 
+                          : 'bg-[var(--gold)] text-white hover:brightness-110 hover:shadow-md'
                       }`}
                     >
-                      {cart.some(item => item.key === p.key) ? 'IN CART ✓' : '+ ADD TO CART'}
+                      {cart.some(item => item.key === p.key) ? 'Added ✓' : 'Add to Cart'}
                     </button>
                   </div>
                 </div>

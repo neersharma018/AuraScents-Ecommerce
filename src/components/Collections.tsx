@@ -13,10 +13,10 @@ const featuredPerfumes = [
     particleType: 'gold-dust'
   },
   {
-    id: 'rose-nocturne',
-    name: 'ROSE NOCTURNE',
+    id: 'midnight-bloom',
+    name: 'MIDNIGHT BLOOM',
     subtitle: 'ELEGANCE IN BLOOM',
-    image: '/assets/perfumes/transparent/ai_purple.png',
+    image: '/assets/perfumes/transparent/midnight-bloom.png',
     category: 'FLORAL & POWDERY',
     price: '₹1200',
     particleType: 'petals'

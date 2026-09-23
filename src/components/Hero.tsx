@@ -43,10 +43,10 @@ const Hero: React.FC = () => {
       <div className="container mx-auto px-6 lg:px-12 relative z-10 flex-grow flex flex-col justify-center">
         
         {/* Main Content Layout */}
-        <div className="flex flex-col lg:flex-row justify-between items-center w-full mt-20">
+        <div className="flex flex-col lg:flex-row justify-between items-center w-full mt-10 lg:-mt-20">
           
           {/* Left Text Content */}
-          <div className="w-full lg:w-[45%] text-[var(--bg-ivory)]">
+          <div className="w-full lg:w-[45%] text-[var(--bg-ivory)] lg:ml-[12%]">
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}

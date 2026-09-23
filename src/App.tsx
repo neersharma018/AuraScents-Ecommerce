@@ -22,6 +22,7 @@ import AdminOrders from './pages/admin/AdminOrders';
 import AdminCoupons from './pages/admin/AdminCoupons';
 import AdminReviews from './pages/admin/AdminReviews';
 import AdminHomeSection from './pages/admin/AdminHomeSection';
+import Reviews from './pages/Reviews';
 
 function App() {
   const location = useLocation();
@@ -92,6 +93,7 @@ function App() {
                 <Route path="/product/:id" element={<ProductDetails />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/reviews" element={<Reviews />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </div>

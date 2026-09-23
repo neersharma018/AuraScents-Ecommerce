@@ -8,8 +8,8 @@ import BestSellers from '../components/BestSellers';
 import Ingredients from '../components/Ingredients';
 import About from '../components/About';
 import WhyAuraScents from '../components/WhyAuraScents';
-import FeaturedBottle from '../components/FeaturedBottle';
-import Testimonials from '../components/Testimonials';
+
+import Reviews from './Reviews';
 import InstagramGallery from '../components/InstagramGallery';
 import Newsletter from '../components/Newsletter';
 
@@ -27,12 +27,11 @@ const Home: React.FC = () => {
         <Collections />
         <CollectionProductGrid />
         <ShopSection />
-        <FeaturedBottle />
-
+        <WhyAuraScents />
         <Ingredients />
         <About />
-        <WhyAuraScents />
-        <Testimonials />
+
+        <Reviews />
         <InstagramGallery />
         <Newsletter />
       </main>
