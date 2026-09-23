@@ -16,7 +16,7 @@ const featuredPerfumes = [
     id: 'midnight-bloom',
     name: 'MIDNIGHT BLOOM',
     subtitle: 'ELEGANCE IN BLOOM',
-    image: '/assets/perfumes/transparent/midnight-bloom.png',
+    image: '/assets/perfumes/transparent/ai_purple.png',
     category: 'FLORAL & POWDERY',
     price: '₹1200',
     particleType: 'petals'
