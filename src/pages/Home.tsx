@@ -10,7 +10,6 @@ import About from '../components/About';
 import WhyAuraScents from '../components/WhyAuraScents';
 
 import Reviews from './Reviews';
-import InstagramGallery from '../components/InstagramGallery';
 import Newsletter from '../components/Newsletter';
 
 const Home: React.FC = () => {
@@ -32,7 +31,6 @@ const Home: React.FC = () => {
         <About />
 
         <Reviews />
-        <InstagramGallery />
         <Newsletter />
       </main>
     </>
